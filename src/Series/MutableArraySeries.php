@@ -31,6 +31,16 @@ final class MutableArraySeries implements MutableSeries
     }
 
     /**
+     * @param T... $items
+     * @return self<T>
+     */
+    #[Pure]
+    public static function of(...$items): self
+    {
+        return new self($items);
+    }
+
+    /**
      * @template GivenType
      * @param array<GivenType> $array
      * @return MutableArraySeries<GivenType>

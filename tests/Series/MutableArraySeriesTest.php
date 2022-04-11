@@ -132,5 +132,17 @@ final class MutableArraySeriesTest extends TestCase
         self::assertEquals($inputArray, $series->toArray());
     }
 
+    /** @test */
+    public function it_has_varargs_generator_method(): void
+    {
+        $mutableSeries = MutableArraySeries::of('x', 'y', 'z');
+
+        self::assertEquals([
+            'x',
+            'y',
+            'z'
+        ], $mutableSeries->toArray());
+    }
+
 
 }
