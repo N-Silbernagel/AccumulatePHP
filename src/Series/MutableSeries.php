@@ -10,5 +10,8 @@ namespace DevNilsSilbernagel\Phpile\Series;
  */
 interface MutableSeries extends Series
 {
-
+    /**
+     * @param T $item
+     */
+    public function add(mixed $item): void;
 }

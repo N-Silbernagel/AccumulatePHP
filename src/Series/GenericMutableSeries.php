@@ -27,7 +27,7 @@ final class GenericMutableSeries implements MutableSeries
     }
 
     /**
-     * @return static<T>
+     * @return self<T>
      */
     #[Pure]
     public static function empty(): self

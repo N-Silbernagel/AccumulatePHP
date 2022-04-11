@@ -7,4 +7,11 @@ namespace DevNilsSilbernagel\Phpile;
 /**
  * @template T
  */
-interface Pile {}
+interface Pile {
+    /**
+     * @return static<T>
+     */
+    public static function empty(): Pile;
+
+    public function count(): int;
+}

@@ -3,7 +3,10 @@ parameters:
     paths:
         - src
         - tests
+    editorUrl: 'idea://open?file=%%file%%&line=%%line%%'
 includes:
-    - vendor/ergebnis/phpstan-rules/rules.neon
     - vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+
+services:
+    - class: Ergebnis\PHPStan\Rules\Files\DeclareStrictTypesRule
