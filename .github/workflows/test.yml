@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Run tests and analysis
 
 on:
   push:
@@ -14,9 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
 
     - name: Cache Composer packages
       id: composer-cache
