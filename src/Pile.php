@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace DevNilsSilbernagel\Phpile;
 
+use Countable;
+
 /**
  * @template T
  */
-interface Pile {
+interface Pile extends Countable{
     /**
      * @return static<T>
      */

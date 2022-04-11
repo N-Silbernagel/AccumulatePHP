@@ -11,10 +11,10 @@ use InvalidArgumentException;
  */
 final class MutableIntSeries extends MutableStrictSeries
 {
-    protected function checkItemBeforeInsertion(mixed $item): void
+    static protected function checkItemBeforeInsertion(mixed $item): void
     {
         if (!is_int($item)) {
-            throw new InvalidArgumentException("Trying to add item of type" . gettype($item) . " to Series of ints.");
+            throw new InvalidArgumentException("Trying to add item of type " . gettype($item) . " to Series of ints.");
         }
     }
 }

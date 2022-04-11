@@ -6,12 +6,12 @@ namespace DevNilsSilbernagel\Phpile\Series;
 
 use PHPUnit\Framework\TestCase;
 
-final class GenericMutableSeriesTest extends TestCase
+final class MutableArraySeriesTest extends TestCase
 {
     /** @test */
     public function it_should_be_empty_by_default(): void
     {
-        $series = GenericMutableSeries::empty();
+        $series = MutableArraySeries::empty();
 
         self::assertSame(0, $series->count());
     }
@@ -20,9 +20,9 @@ final class GenericMutableSeriesTest extends TestCase
     public function it_should_allow_adding_items(): void
     {
         /**
-         * @var GenericMutableSeries<int> $series
+         * @var MutableArraySeries<int> $series
          */
-        $series = GenericMutableSeries::empty();
+        $series = MutableArraySeries::empty();
 
         $series->add(1);
 
@@ -33,9 +33,9 @@ final class GenericMutableSeriesTest extends TestCase
     public function it_should_allow_removing_items_by_index(): void
     {
         /**
-         * @var GenericMutableSeries<int> $series
+         * @var MutableArraySeries<int> $series
          */
-        $series = GenericMutableSeries::empty();
+        $series = MutableArraySeries::empty();
 
         $series->add(10);
 
@@ -48,9 +48,9 @@ final class GenericMutableSeriesTest extends TestCase
     public function it_should_return_the_removed_item_when_removing_by_index(): void
     {
         /**
-         * @var GenericMutableSeries<int> $series
+         * @var MutableArraySeries<int> $series
          */
-        $series = GenericMutableSeries::empty();
+        $series = MutableArraySeries::empty();
 
         $series->add(13);
 
@@ -63,9 +63,9 @@ final class GenericMutableSeriesTest extends TestCase
     public function it_should_allow_getting_items_by_index(): void
     {
         /**
-         * @var GenericMutableSeries<string> $series
+         * @var MutableArraySeries<string> $series
          */
-        $series = GenericMutableSeries::empty();
+        $series = MutableArraySeries::empty();
 
         $series->add('test5');
         $series->add('test2');
@@ -83,7 +83,7 @@ final class GenericMutableSeriesTest extends TestCase
         /** @var array<int> $intArray */
         $intArray = [1, 10, 5];
 
-        $fromArray = GenericMutableSeries::fromArray($intArray);
+        $fromArray = MutableArraySeries::fromArray($intArray);
 
         self::assertSame(3, $fromArray->count());
     }
@@ -94,10 +94,43 @@ final class GenericMutableSeriesTest extends TestCase
         /** @var array<int> $intArray */
         $intArray = [1, 44542, 2];
 
-        $fromArray = GenericMutableSeries::fromArray($intArray);
+        $fromArray = MutableArraySeries::fromArray($intArray);
 
         self::assertSame(44542, $fromArray->get(1));
         self::assertSame(1, $fromArray->get(0));
         self::assertSame(2, $fromArray->get(2));
     }
+
+    /** @test */
+    public function it_should_allow_mapping_according_to_a_closure(): void
+    {
+        /**
+         * @var Series<int>
+         */
+        $series = MutableArraySeries::fromArray([1, 2, 3]);
+
+        $mappedSeries = $series->map(function (int $item) {
+            return $item * 2;
+        });
+
+        self::assertSame(1, $series->get(0));
+        self::assertSame(2, $series->get(1));
+        self::assertSame(3, $series->get(2));
+
+        self::assertSame(2, $mappedSeries->get(0));
+        self::assertSame(4, $mappedSeries->get(1));
+        self::assertSame(6, $mappedSeries->get(2));
+    }
+
+    /** @test */
+    public function it_can_be_converted_to_array(): void
+    {
+        $inputArray = ['xy', 'z'];
+
+        $series = MutableArraySeries::fromArray($inputArray);
+
+        self::assertEquals($inputArray, $series->toArray());
+    }
+
+
 }

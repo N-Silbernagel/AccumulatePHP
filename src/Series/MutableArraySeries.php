@@ -11,19 +11,14 @@ use JetBrains\PhpStorm\Pure;
  * @template T
  * @implements MutableSeries<T>
  */
-final class GenericMutableSeries implements MutableSeries
+final class MutableArraySeries implements MutableSeries
 {
     /**
-     * @var array<T> the internal array used for keeping the values
+     * @param array<T> $repository the internal array used for keeping the values
      */
-    private array $repository;
-
-    /**
-     * @param array<T> $repository
-     */
-    private function __construct(array $repository)
+    private function __construct(
+        private array $repository)
     {
-        $this->repository = $repository;
     }
 
     /**
@@ -38,10 +33,10 @@ final class GenericMutableSeries implements MutableSeries
     /**
      * @template GivenType
      * @param array<GivenType> $array
-     * @return GenericMutableSeries<GivenType>
+     * @return MutableArraySeries<GivenType>
      */
     #[Pure]
-    public static function fromArray(array $array): GenericMutableSeries
+    public static function fromArray(array $array): MutableArraySeries
     {
         return new self($array);
     }
@@ -76,5 +71,21 @@ final class GenericMutableSeries implements MutableSeries
     public function get(int $index): mixed
     {
         return $this->repository[$index];
+    }
+
+    /**
+     * @template CallableReturnType
+     * @param callable(T): CallableReturnType $mapConsumer
+     * @return self<CallableReturnType>
+     */
+    public function map(callable $mapConsumer): self
+    {
+        $mappedRepo = array_map($mapConsumer, $this->repository);
+        return self::fromArray($mappedRepo);
+    }
+
+    public function toArray(): array
+    {
+        return $this->repository;
     }
 }
