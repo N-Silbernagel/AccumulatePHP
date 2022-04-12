@@ -1,6 +1,6 @@
 WIP: this project is about 4 working hours old, so it´s a heavy work in progress.
 
-[Tests](https://github.com/N-Silbernagel/PHPile/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/N-Silbernagel/PHPile/actions/workflows/test.yml/badge.svg)
 
 # PHPile
 A PHP Collection Library. Strongly inspired by Java Collections API.
