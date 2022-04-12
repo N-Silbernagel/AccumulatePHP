@@ -9,7 +9,7 @@ use Countable;
 /**
  * @template T
  */
-interface Pile extends Countable{
+interface Pile extends Countable {
     /**
      * @return static<T>
      */

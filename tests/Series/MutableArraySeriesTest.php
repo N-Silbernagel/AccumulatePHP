@@ -144,5 +144,20 @@ final class MutableArraySeriesTest extends TestCase
         ], $mutableSeries->toArray());
     }
 
+    /** @test */
+    public function it_is_filterable_through_callable(): void
+    {
+        /**
+         * @var Series<string>
+         */
+        $series = MutableArraySeries::of('1', '12.4', 'abc');
+
+        $filteredSeries = $series->filter(fn(string $item) => is_numeric($item));
+
+        self::assertEquals([
+            1,
+            12.4
+        ], $filteredSeries->toArray());
+    }
 
 }

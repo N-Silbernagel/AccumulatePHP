@@ -33,16 +33,6 @@ abstract class MutableStrictSeries implements MutableSeries
     }
 
     /**
-     * @param T... $items
-     * @return MutableStrictSeries<T>
-     */
-    #[Pure]
-    public static function of(...$items): MutableStrictSeries
-    {
-        return new static(MutableArraySeries::fromArray($items));
-    }
-
-    /**
      * @template ArrayType
      * @param array<ArrayType> $input
      * @return MutableStrictSeries<ArrayType>
@@ -53,6 +43,21 @@ abstract class MutableStrictSeries implements MutableSeries
             static::checkItemBeforeInsertion($item);
         }
 
+        return new static(MutableArraySeries::fromArray($input));
+    }
+
+    /**
+     * Create Series without checking via @see MutableStrictSeries::checkItemBeforeInsertion()
+     * so implementations need to be sure to only pass in appropriate items.
+     * Provides performance benefits through not checking.
+     *
+     * @template ArrayType
+     * @param array<ArrayType> $input
+     * @return static
+     */
+    #[Pure]
+    protected static function dangerousFromArray(array $input): static
+    {
         return new static(MutableArraySeries::fromArray($input));
     }
 
@@ -82,6 +87,15 @@ abstract class MutableStrictSeries implements MutableSeries
     }
 
     /**
+     * @param callable(T): bool $filterConsumer
+     * @return static
+     */
+    public function filter(callable $filterConsumer): static
+    {
+        return static::dangerousFromArray($this->repository->filter($filterConsumer)->toArray());
+    }
+
+    /**
      * @return T
      */
     public function get(int $index): mixed
@@ -98,5 +112,5 @@ abstract class MutableStrictSeries implements MutableSeries
     /**
      * @throws InvalidArgumentException when given an invalidItem
      */
-    abstract static protected function checkItemBeforeInsertion(mixed $item): void;
+    abstract protected static function checkItemBeforeInsertion(mixed $item): void;
 }

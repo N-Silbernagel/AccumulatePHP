@@ -94,4 +94,18 @@ final class MutableIntSeriesTest extends TestCase
             5
         ], $intSeries->toArray());
     }
+
+    /** @test */
+    public function it_is_filterable_through_callable(): void
+    {
+        $series = MutableIntSeries::of(2, 4, 5);
+
+        $isEven = fn(int $item) => $item % 2 === 0;
+        $filteredSeries = $series->filter($isEven);
+
+        self::assertEquals([
+            2,
+            4
+        ], $filteredSeries->toArray());
+    }
 }

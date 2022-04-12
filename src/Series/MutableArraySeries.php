@@ -94,8 +94,21 @@ final class MutableArraySeries implements MutableSeries
         return self::fromArray($mappedRepo);
     }
 
+    /**
+     * @return array<T>
+     */
     public function toArray(): array
     {
         return $this->repository;
+    }
+
+    /**
+     * @param callable(T): bool $filterConsumer
+     * @return MutableArraySeries<T>
+     */
+    public function filter(callable $filterConsumer): MutableArraySeries
+    {
+        $filteredRepo = array_filter($this->repository, $filterConsumer);
+        return self::fromArray($filteredRepo);
     }
 }
