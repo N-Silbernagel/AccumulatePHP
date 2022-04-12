@@ -23,7 +23,7 @@ abstract class MutableStrictSeries implements MutableSeries
     }
 
     #[Pure]
-    final public static function empty(): static
+    public static function empty(): static
     {
         return new static(MutableArraySeries::empty());
     }
@@ -33,7 +33,7 @@ abstract class MutableStrictSeries implements MutableSeries
      * @param array<ArrayType> $input
      * @return static
      */
-    final public static function fromArray(array $input): static
+    public static function fromArray(array $input): static
     {
         foreach ($input as $item) {
             static::checkItemBeforeInsertion($item);
@@ -42,7 +42,7 @@ abstract class MutableStrictSeries implements MutableSeries
         return new static(MutableArraySeries::fromArray($input));
     }
 
-    final public function count(): int
+    public function count(): int
     {
         return count($this->repository);
     }
@@ -51,7 +51,7 @@ abstract class MutableStrictSeries implements MutableSeries
      * @param T $item
      * @throws InvalidArgumentException
      */
-    final public function add(mixed $item): void
+    public function add(mixed $item): void
     {
         static::checkItemBeforeInsertion($item);
         $this->repository->add($item);
@@ -62,7 +62,7 @@ abstract class MutableStrictSeries implements MutableSeries
      * @param callable(T): CallableReturnType $mapConsumer
      * @return MutableArraySeries<CallableReturnType>
      */
-    final public function map(callable $mapConsumer): MutableArraySeries
+    public function map(callable $mapConsumer): MutableArraySeries
     {
         return $this->repository->map($mapConsumer);
     }
