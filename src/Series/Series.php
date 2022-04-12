@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DevNilsSilbernagel\Phpile\Series;
 
 use DevNilsSilbernagel\Phpile\Pile;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @template T
@@ -12,6 +13,12 @@ use DevNilsSilbernagel\Phpile\Pile;
  */
 interface Series extends Pile
 {
+    /**
+     * @param T... $items
+     * @return self<T>
+     */
+    public static function of(...$items): Pile;
+
     /**
      * @template CallableReturnType
      * @param callable(T): CallableReturnType $mapConsumer

@@ -6,6 +6,7 @@ namespace DevNilsSilbernagel\Phpile\Series;
 
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
+use PHPStan\Type\ArrayType;
 
 /**
  * @template T
@@ -22,18 +23,31 @@ abstract class MutableStrictSeries implements MutableSeries
     {
     }
 
+    /**
+     * @return MutableStrictSeries<T>
+     */
     #[Pure]
-    public static function empty(): static
+    public static function empty(): MutableStrictSeries
     {
         return new static(MutableArraySeries::empty());
     }
 
     /**
+     * @param T... $items
+     * @return MutableStrictSeries<T>
+     */
+    #[Pure]
+    public static function of(...$items): MutableStrictSeries
+    {
+        return new static(MutableArraySeries::fromArray($items));
+    }
+
+    /**
      * @template ArrayType
      * @param array<ArrayType> $input
-     * @return static
+     * @return MutableStrictSeries<ArrayType>
      */
-    public static function fromArray(array $input): static
+    public static function fromArray(array $input): MutableStrictSeries
     {
         foreach ($input as $item) {
             static::checkItemBeforeInsertion($item);

@@ -82,4 +82,16 @@ final class MutableIntSeriesTest extends TestCase
 
         self::assertEquals($inputArray, $series->toArray());
     }
+
+    /** @test */
+    public function it_has_varargs_generator_method(): void
+    {
+        $intSeries = MutableIntSeries::of(52, 59593, 5);
+
+        self::assertEquals([
+            52,
+            59593,
+            5
+        ], $intSeries->toArray());
+    }
 }
