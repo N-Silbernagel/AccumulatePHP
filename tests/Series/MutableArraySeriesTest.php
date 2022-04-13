@@ -173,4 +173,19 @@ final class MutableArraySeriesTest extends TestCase
 
         self::assertEquals($inputArray, $traversedItems);
     }
+
+    /** @test */
+    public function it_can_be_made_from_assoc_array(): void
+    {
+        $input = [
+            0 => 0,
+            'test' => 10
+        ];
+
+        /** @var Series<int> $series */
+        $series = MutableArraySeries::fromArray($input);
+
+        self::assertSame(0, $series->get(0));
+        self::assertSame(10, $series->get(1));
+    }
 }

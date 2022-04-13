@@ -50,7 +50,8 @@ final class MutableArraySeries implements MutableSeries
     #[Pure]
     public static function fromArray(array $array): MutableArraySeries
     {
-        return new self($array);
+        $arrayValues = array_values($array);
+        return new self($arrayValues);
     }
 
     public function count(): int
