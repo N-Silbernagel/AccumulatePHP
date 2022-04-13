@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DevNilsSilbernagel\Phpile\Series;
 
+use DevNilsSilbernagel\Phpile\Pile;
 use PHPUnit\Framework\TestCase;
 
 final class MutableArraySeriesTest extends TestCase
@@ -19,9 +20,7 @@ final class MutableArraySeriesTest extends TestCase
     /** @test */
     public function it_should_allow_adding_items(): void
     {
-        /**
-         * @var MutableArraySeries<int> $series
-         */
+        /** @var MutableArraySeries<int> $series */
         $series = MutableArraySeries::empty();
 
         $series->add(1);
@@ -32,9 +31,7 @@ final class MutableArraySeriesTest extends TestCase
     /** @test */
     public function it_should_allow_removing_items_by_index(): void
     {
-        /**
-         * @var MutableArraySeries<int> $series
-         */
+        /** @var MutableSeries<int> $series */
         $series = MutableArraySeries::empty();
 
         $series->add(10);
@@ -105,7 +102,7 @@ final class MutableArraySeriesTest extends TestCase
     public function it_should_allow_mapping_according_to_a_closure(): void
     {
         /**
-         * @var Series<int>
+         * @var Series<int> $series
          */
         $series = MutableArraySeries::fromArray([1, 2, 3]);
 
@@ -147,9 +144,7 @@ final class MutableArraySeriesTest extends TestCase
     /** @test */
     public function it_is_filterable_through_callable(): void
     {
-        /**
-         * @var Series<string>
-         */
+        /** @var Series<string> $series */
         $series = MutableArraySeries::of('1', '12.4', 'abc');
 
         $filteredSeries = $series->filter(fn(string $item) => is_numeric($item));
@@ -160,4 +155,22 @@ final class MutableArraySeriesTest extends TestCase
         ], $filteredSeries->toArray());
     }
 
+    /** @test */
+    public function it_is_traversable(): void
+    {
+        $traversedItems = [];
+
+        /** @var array<int|string> $inputArray */
+        $inputArray = ['123', 5, -13];
+
+        /**
+         * @var Pile<int|string> $pile
+         */
+        $pile = MutableArraySeries::fromArray($inputArray);
+        foreach ($pile as $item) {
+            $traversedItems[] = $item;
+        }
+
+        self::assertEquals($inputArray, $traversedItems);
+    }
 }

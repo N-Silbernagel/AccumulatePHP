@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace DevNilsSilbernagel\Phpile\Series;
 
 
+use DevNilsSilbernagel\Phpile\StringKeyException;
 use JetBrains\PhpStorm\Pure;
+use OutOfBoundsException;
 
 /**
  * @template T
@@ -110,5 +112,48 @@ final class MutableArraySeries implements MutableSeries
     {
         $filteredRepo = array_filter($this->repository, $filterConsumer);
         return self::fromArray($filteredRepo);
+    }
+
+    /**
+     * @return T|false
+     */
+    public function current(): mixed
+    {
+        return current($this->repository);
+    }
+
+    public function next(): void
+    {
+        next($this->repository);
+    }
+
+    public function key(): int
+    {
+        $key = key($this->repository);
+
+        if (is_null($key)) {
+            throw new OutOfBoundsException();
+        }
+
+        if (is_string($key)) {
+            throw new StringKeyException();
+        }
+
+        return $key;
+    }
+
+    public function valid(): bool
+    {
+        try {
+            $this->key();
+            return true;
+        } catch (OutOfBoundsException|StringKeyException) {
+            return false;
+        }
+    }
+
+    public function rewind(): void
+    {
+        reset($this->repository);
     }
 }

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace DevNilsSilbernagel\Phpile;
 
 use Countable;
+use Iterator;
 
 /**
- * @template T
+ * @template TValue
+ * @extends Iterator<int, TValue>
  */
-interface Pile extends Countable {
+interface Pile extends Countable, Iterator {
     /**
-     * @return static<T>
+     * @return static<TValue>
      */
     public static function empty(): Pile;
-
-    public function count(): int;
 }
