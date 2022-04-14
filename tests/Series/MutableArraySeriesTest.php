@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Series;
+namespace Series;
 
 use DevNilsSilbernagel\Phpile\Pile;
+use DevNilsSilbernagel\Phpile\Series\MutableArraySeries;
+use DevNilsSilbernagel\Phpile\Series\MutableSeries;
+use DevNilsSilbernagel\Phpile\Series\Series;
 use PHPUnit\Framework\TestCase;
 
 final class MutableArraySeriesTest extends TestCase
@@ -190,10 +193,10 @@ final class MutableArraySeriesTest extends TestCase
     }
 
     /** @test */
-    public function it_knows_if_it_is_empty()
+    public function it_knows_if_it_is_empty(): void
     {
         /**
-         * @var Pile<mixed>
+         * @var MutableSeries<mixed>
          */
         $pile = MutableArraySeries::of();
 
