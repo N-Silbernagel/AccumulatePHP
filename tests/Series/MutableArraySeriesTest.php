@@ -150,8 +150,8 @@ final class MutableArraySeriesTest extends TestCase
         $filteredSeries = $series->filter(fn(string $item) => is_numeric($item));
 
         self::assertEquals([
-            1,
-            12.4
+            '1',
+            '12.4'
         ], $filteredSeries->toArray());
     }
 
@@ -187,5 +187,24 @@ final class MutableArraySeriesTest extends TestCase
 
         self::assertSame(0, $series->get(0));
         self::assertSame(10, $series->get(1));
+    }
+
+    /** @test */
+    public function it_knows_if_it_is_empty()
+    {
+        /**
+         * @var Pile<mixed>
+         */
+        $pile = MutableArraySeries::of();
+
+        self::assertTrue($pile->isEmpty());
+
+        $pile->add(1);
+
+        self::assertFalse($pile->isEmpty());
+
+        $pile->remove(0);
+
+        self::assertTrue($pile->isEmpty());
     }
 }

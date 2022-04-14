@@ -157,4 +157,10 @@ final class MutableArraySeries implements MutableSeries
     {
         reset($this->repository);
     }
+
+    #[Pure]
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
+    }
 }
