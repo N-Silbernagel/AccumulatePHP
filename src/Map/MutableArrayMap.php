@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DevNilsSilbernagel\Phpile\Map;
 
-use DevNilsSilbernagel\Phpile\Series\MutableArraySeries;
+use DevNilsSilbernagel\Phpile\Series\DefaultSeries;
 use DevNilsSilbernagel\Phpile\Series\Series;
 use JetBrains\PhpStorm\Pure;
 
@@ -71,8 +71,7 @@ class MutableArrayMap implements MutableMap
     #[Pure]
     public function values(): Series
     {
-        // TODO: rather return immutable series
-        return MutableArraySeries::fromArray($this->repository);
+        return DefaultSeries::fromArray($this->repository);
     }
 
     /**
