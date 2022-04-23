@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Series;
+namespace PHPile\Series;
 
 
-use DevNilsSilbernagel\Phpile\StringKeyException;
+use PHPile\StringKeyException;
 use JetBrains\PhpStorm\Pure;
 use OutOfBoundsException;
 

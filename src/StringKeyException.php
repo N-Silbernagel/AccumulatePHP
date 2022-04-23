@@ -1,6 +1,6 @@
 <?php
 
-namespace DevNilsSilbernagel\Phpile;
+namespace PHPile;
 
 use RuntimeException;
 

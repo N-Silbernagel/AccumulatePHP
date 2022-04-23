@@ -1,11 +1,11 @@
 {
-    "name": "dev.nils_silbernagel/phpile",
-    "description": "A PHP collection library inspired by Java collections API",
+    "name": "nsilbernagel/phpile",
+    "description": "Better PHP collections.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "DevNilsSilbernagel\\Phpile\\": "src/"
+            "PHPile\\": "src/"
         }
     },
     "authors": [

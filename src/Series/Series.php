@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Series;
+namespace PHPile\Series;
 
-use DevNilsSilbernagel\Phpile\Pile;
+use PHPile\Pile;
 
 /**
  * @template T

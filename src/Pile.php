@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile;
+namespace PHPile;
 
 use Countable;
 use Iterator;

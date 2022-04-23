@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Map;
+namespace PHPile\Map;
 
-use DevNilsSilbernagel\Phpile\Pile;
+use PHPile\Pile;
 
 /**
  * @template TKey of int|string

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Map;
+namespace PHPile\Map;
 
-use DevNilsSilbernagel\Phpile\Series\DefaultSeries;
-use DevNilsSilbernagel\Phpile\Series\Series;
+use PHPile\Series\DefaultSeries;
+use PHPile\Series\Series;
 use JetBrains\PhpStorm\Pure;
 
 /**

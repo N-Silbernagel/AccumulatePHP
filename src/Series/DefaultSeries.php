@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DevNilsSilbernagel\Phpile\Series;
+namespace PHPile\Series;
 
 use JetBrains\PhpStorm\Pure;
 

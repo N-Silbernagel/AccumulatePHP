@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Series;
 
-use DevNilsSilbernagel\Phpile\Pile;
-use DevNilsSilbernagel\Phpile\Series\MutableArraySeries;
-use DevNilsSilbernagel\Phpile\Series\MutableSeries;
-use DevNilsSilbernagel\Phpile\Series\Series;
+use PHPile\Pile;
+use PHPile\Series\MutableArraySeries;
+use PHPile\Series\MutableSeries;
+use PHPile\Series\Series;
 use PHPUnit\Framework\TestCase;
 
 final class MutableArraySeriesTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Map;
 
-use DevNilsSilbernagel\Phpile\Map\MutableArrayMap;
+use PHPile\Map\MutableArrayMap;
 use PHPUnit\Framework\TestCase;
 
 class MutableArrayMapTest extends TestCase
