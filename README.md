@@ -1,26 +1,20 @@
-WIP: this project is about 4 working hours old, so it´s a heavy work in progress.
-
 ![Tests](https://github.com/N-Silbernagel/PHPile/actions/workflows/test.yml/badge.svg)
 
 # PHPile
-A PHP Collection Library. Strongly inspired by Java Collections API.
+Better collections
 
 ## What is this library for
-This library aims at adding compile- and runtime type safety to PHP arrays by providing Collection-API like Classes. 
+Every had to track down a bug just to find out that that one array_unique call turned your list array into an assoc array? PHPile solves those issues by distinguishing between Maps (assoc array) and Series (list array).  
 
-## Type safety
-### "Compile"time
-By relying heavily on generics, this library offers excellent static analysability.
-
-### Runtime
-Collection classes can be implemented to perform checks on the items inside of them to guarantee runtime type safety or even other contracts.
+## Static Analysis
+PHPile provides first class support for static analysis by using generics constantly being checked at PHPStan level 9.
 
 ## Structure
 ### Pile
-The Pile interface is to this library what the Collection interface is to Java Collections API. It is not called Collection because Collections in the PHP world are kinda ruled by Larvel and Doctrine.
+The Pile interface should be used to typehint against when only a basic collection (pile) of items is needed. It keeps the door open for switching out implementations. For example from Series to Set (not available yet).
 
 ### Series
-A series guarantees order.
+A Pile with guaranteed order.
 
 ### MutableSeries
 A series which can be modified.
@@ -28,8 +22,8 @@ A series which can be modified.
 ### MutableArraySeries
 A simple MutableSeries implementation using an array for storing values internally.
 
-### MutableStrictSeries
-An abstract class to implement for guaranting runtime safeties.
+### Map
+A key-value mapping where keys can be strings or int and values can be mixed.
 
-### MutableIntSeries
-An implmentation of MutableStrictSeries, all items will be ints during runtime.
+### MutableArrayMap
+Map implementation with capability of adding and removing items.
