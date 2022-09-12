@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Series;
 
-use AccumulatePHP\Pile;
+use AccumulatePHP\Accumulation;
 use AccumulatePHP\Series\Series;
 use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\MutableArraySeries;
@@ -167,7 +167,7 @@ final class MutableArraySeriesTest extends TestCase
         $inputArray = ['123', 5, -13];
 
         /**
-         * @var Pile<int|string> $pile
+         * @var Accumulation<int|string> $pile
          */
         $pile = MutableArraySeries::fromArray($inputArray);
         foreach ($pile as $item) {

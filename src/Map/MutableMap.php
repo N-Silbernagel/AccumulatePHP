@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AccumulatePHP\Map;
 
 /**
- * @template TKey of int|string
+ * @template TKey
  * @template TValue
  * @extends Map<TKey, TValue>
  */
@@ -16,5 +16,5 @@ interface MutableMap extends Map
      * @param TValue $value
      * @return TValue
      */
-    public function put(int|string $key, mixed $value): mixed;
+    public function put(mixed $key, mixed $value): mixed;
 }

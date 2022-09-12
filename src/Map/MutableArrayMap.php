@@ -13,7 +13,7 @@ use JetBrains\PhpStorm\Pure;
  * @template TValue
  * @implements MutableMap<TKey, TValue>
  */
-class MutableArrayMap implements MutableMap
+final class MutableArrayMap implements MutableMap
 {
     /**
      * @param array<TKey, TValue> $repository

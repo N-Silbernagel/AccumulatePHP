@@ -10,7 +10,7 @@ use JetBrains\PhpStorm\Pure;
  * @template T
  * @implements Series<T>
  */
-class DefaultSeries implements Series
+final class DefaultSeries implements Series
 {
     /**
      * @param Series<T> $repository

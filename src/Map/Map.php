@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
-use AccumulatePHP\Pile;
+use AccumulatePHP\Accumulation;
 
 /**
- * @template TKey of int|string
+ * @template TKey
  * @template TValue
  */
 interface Map
@@ -16,14 +16,14 @@ interface Map
      * @param TKey $key
      * @return TValue
      */
-    public function get(string|int $key);
+    public function get(mixed $key);
 
     public function isEmpty(): bool;
 
     public function count(): int;
 
     /**
-     * @return Pile<TValue>
+     * @return Accumulation<TValue>
      */
-    public function values(): Pile;
+    public function values(): Accumulation;
 }

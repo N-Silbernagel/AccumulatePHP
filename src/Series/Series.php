@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Series;
 
-use AccumulatePHP\Pile;
+use AccumulatePHP\Accumulation;
 
 /**
  * @template T
- * @extends Pile<T>
+ * @extends Accumulation<T>
  */
-interface Series extends Pile
+interface Series extends Accumulation
 {
     /**
      * @template CallableReturnType

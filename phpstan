@@ -1,2 +1,2 @@
 #! /bin/bash
-docker exec -it phpile-php-1 php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon.dist
+docker exec -it accumulatephp-php-1 php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon.dist

@@ -12,11 +12,11 @@ use OutOfBoundsException;
  * @template TValue
  * @extends Iterator<int, TValue>
  */
-interface Pile extends Countable, Iterator {
+interface Accumulation extends Countable, Iterator {
     /**
      * @return static<TValue>
      */
-    public static function empty(): Pile;
+    public static function empty(): Accumulation;
 
     public function isEmpty(): bool;
 
