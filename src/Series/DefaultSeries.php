@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Series;
+namespace AccumulatePHP\Series;
 
 use JetBrains\PhpStorm\Pure;
 

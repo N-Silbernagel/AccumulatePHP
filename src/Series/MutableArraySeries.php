@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Series;
+namespace AccumulatePHP\Series;
 
 
-use PHPile\StringKeyException;
+use AccumulatePHP\StringKeyException;
 use JetBrains\PhpStorm\Pure;
 use OutOfBoundsException;
 

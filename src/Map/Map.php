@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Map;
+namespace AccumulatePHP\Map;
 
-use PHPile\Pile;
+use AccumulatePHP\Pile;
 
 /**
  * @template TKey of int|string

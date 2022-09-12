@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Map;
+namespace Tests\Map;
 
-use PHPile\Map\MutableArrayMap;
+use AccumulatePHP\Map\MutableArrayMap;
 use PHPUnit\Framework\TestCase;
 
 class MutableArrayMapTest extends TestCase

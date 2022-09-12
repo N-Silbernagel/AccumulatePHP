@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPile;
+namespace AccumulatePHP;
 
 use RuntimeException;
 

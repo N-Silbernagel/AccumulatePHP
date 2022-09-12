@@ -1,13 +1,13 @@
-![Tests](https://github.com/N-Silbernagel/PHPile/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/N-Silbernagel/AccumulatePHP/actions/workflows/test.yml/badge.svg)
 
-# PHPile
+# AccumulatePHP
 Better collections
 
 ## What is this library for
-Every had to track down a bug just to find out that that one array_unique call turned your list array into an assoc array? PHPile solves those issues by distinguishing between Maps (assoc array) and Series (list array).  
+Every had to track down a bug just to find out that that one array_unique call turned your list array into an assoc array? AccumulatePHP solves those issues by distinguishing between Maps (assoc array) and Series (list array).  
 
 ## Static Analysis
-PHPile provides first class support for static analysis by using generics constantly being checked at PHPStan level 9.
+AccumulatePHP provides first class support for static analysis by using generics constantly being checked at PHPStan level 9.
 
 ## Structure
 ### Pile

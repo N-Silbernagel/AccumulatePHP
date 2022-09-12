@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Map;
+namespace AccumulatePHP\Map;
 
-use PHPile\Series\DefaultSeries;
-use PHPile\Series\Series;
+use AccumulatePHP\Series\DefaultSeries;
+use AccumulatePHP\Series\Series;
 use JetBrains\PhpStorm\Pure;
 
 /**

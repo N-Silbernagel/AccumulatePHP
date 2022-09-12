@@ -1,11 +1,16 @@
 {
-    "name": "nsilbernagel/phpile",
-    "description": "Better PHP collections.",
+    "name": "nsilbernagel/accumulatephp",
+    "description": "A PHP collections (accumulations) framework.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "PHPile\\": "src/"
+            "AccumulatePHP\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "authors": [

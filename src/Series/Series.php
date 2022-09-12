@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Series;
+namespace AccumulatePHP\Series;
 
-use PHPile\Pile;
+use AccumulatePHP\Pile;
 
 /**
  * @template T

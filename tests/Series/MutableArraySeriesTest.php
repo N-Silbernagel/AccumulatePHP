@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Series;
+namespace Tests\Series;
 
-use PHPile\Pile;
-use PHPile\Series\MutableArraySeries;
-use PHPile\Series\MutableSeries;
-use PHPile\Series\Series;
+use AccumulatePHP\Pile;
+use AccumulatePHP\Series\Series;
+use AccumulatePHP\Series\MutableSeries;
+use AccumulatePHP\Series\MutableArraySeries;
 use PHPUnit\Framework\TestCase;
 
 final class MutableArraySeriesTest extends TestCase

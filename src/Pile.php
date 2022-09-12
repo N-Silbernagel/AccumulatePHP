@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPile;
+namespace AccumulatePHP;
 
 use Countable;
 use Iterator;

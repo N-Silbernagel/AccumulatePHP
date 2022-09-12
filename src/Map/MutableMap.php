@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPile\Map;
+namespace AccumulatePHP\Map;
 
 /**
  * @template TKey of int|string
