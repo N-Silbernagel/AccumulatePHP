@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
-use AccumulatePHP\Accumulation;
 use AccumulatePHP\Hashable;
-use AccumulatePHP\Series\DefaultSeries;
-use AccumulatePHP\Series\MutableSeries;
+use AccumulatePHP\Series\MutableArraySeries;
 use AccumulatePHP\Series\Series;
+use SplDoublyLinkedList;
 
 /**
  * @template TKey
@@ -18,7 +17,7 @@ use AccumulatePHP\Series\Series;
 final class HashMap implements MutableMap
 {
     /**
-     * @var array<int|string, TValue>
+     * @var array<int|string, SplDoublyLinkedList<Entry<TKey, TValue>>>
      */
     private array $repository;
 
@@ -38,11 +37,23 @@ final class HashMap implements MutableMap
     /**
      * @throws UnsupportedHashMapKeyException
      */
-    public function get(mixed $key)
+    public function get(mixed $key): mixed
     {
-        $key = $this->evaluateKey($key);
+        $hash = $this->evaluateHash($key);
 
-        return $this->repository[$key];
+        if (!array_key_exists($hash, $this->repository)) {
+            return null;
+        }
+
+        $bucket = $this->repository[$hash];
+
+        foreach ($bucket as $entry) {
+            if ($this->keyEquals($entry->getKey(), $key)) {
+                return $entry->getValue();
+            }
+        }
+
+        return null;
     }
 
     public function isEmpty(): bool
@@ -60,17 +71,50 @@ final class HashMap implements MutableMap
      */
     public function values(): Series
     {
-        return DefaultSeries::fromArray($this->repository);
+        /** @var MutableArraySeries<TValue> $series */
+        $series = MutableArraySeries::empty();
+        foreach ($this->repository as $bucket) {
+            foreach ($bucket as $entry) {
+                $series->add($entry->getValue());
+            }
+        }
+        return $series;
     }
 
     /**
+     * @param TKey $key
+     * @param TValue $value
      * @throws UnsupportedHashMapKeyException
      */
     public function put(mixed $key, mixed $value): mixed
     {
-        $key = $this->evaluateKey($key);
+        $hash = $this->evaluateHash($key);
 
-        $this->repository[$key] = $value;
+        if (!array_key_exists($hash, $this->repository)) {
+            $this->repository[$hash] = new SplDoublyLinkedList();
+        }
+
+
+        $bucket = $this->repository[$hash];
+
+        $bucketIndex = -1;
+        foreach ($bucket as $index => $item) {
+            if ($this->keyEquals($item->getKey(), $key)) {
+                $bucketIndex = $index;
+            }
+        }
+
+
+        /** @var Entry<TKey, TValue> $entry */
+        $entry = Entry::of($key, $value);
+
+
+        if ($bucketIndex !== -1) {
+            $bucket[$bucketIndex] = $entry;
+            return $value;
+        }
+
+        $bucket->push($entry);
 
         return $value;
     }
@@ -78,7 +122,7 @@ final class HashMap implements MutableMap
     /**
      * @throws UnsupportedHashMapKeyException
      */
-    private function evaluateKey(mixed $key): string|int
+    private function evaluateHash(mixed $key): string|int
     {
         if ($key instanceof Hashable) {
             return $key->hashcode();
@@ -93,5 +137,18 @@ final class HashMap implements MutableMap
         }
 
         throw new UnsupportedHashMapKeyException();
+    }
+
+    private function keyEquals(mixed $one, mixed $two): bool
+    {
+        if (gettype($one) !== gettype($two)) {
+            return false;
+        }
+
+        if ($one instanceof Hashable && $two instanceof Hashable) {
+            return $one->equals($two);
+        }
+
+        return $one === $two;
     }
 }

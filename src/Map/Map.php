@@ -14,9 +14,9 @@ interface Map
 {
     /**
      * @param TKey $key
-     * @return TValue
+     * @return TValue|null
      */
-    public function get(mixed $key);
+    public function get(mixed $key): mixed;
 
     public function isEmpty(): bool;
 

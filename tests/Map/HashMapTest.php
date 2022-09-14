@@ -64,9 +64,9 @@ final class HashMapTest extends TestCase
     /** @test */
     public function it_should_allow_adding_entries_with_hashable_keys(): void
     {
-        $hashable = new SomeHashable();
+        $hashable = new EqualHashable('period');
 
-        /** @var HashMap<SomeHashable, int> $hashMap */
+        /** @var HashMap<EqualHashable, int> $hashMap */
         $hashMap = HashMap::empty();
 
         $hashMap->put($hashable, 3);
@@ -79,13 +79,50 @@ final class HashMapTest extends TestCase
     /** @test */
     public function key_with_same_hashcode_should_yield_same_result_if_also_equal(): void
     {
-        self::assertTrue(false);
+        $equalHashableOne = new EqualHashable('overnight');
+        $equalHashableTwo = new EqualHashable('overnight');
+
+        /** @var HashMap<EqualHashable, string> $hashMap */
+        $hashMap = HashMap::empty();
+
+        $hashMap->put($equalHashableOne, 'gardening');
+
+        $actual = $hashMap->get($equalHashableTwo);
+        self::assertSame('gardening', $actual);
     }
 
     /** @test */
-    public function key_with_same_hashcode_should_yield_colliding_objects_if_not_equal(): void
+    public function key_with_same_hashcode_should_overwrite_value_if_also_equal(): void
     {
-        self::assertTrue(false);
+        $equalHashableOne = new EqualHashable('overnight');
+        $equalHashableTwo = new EqualHashable('overnight');
+
+        /** @var HashMap<EqualHashable, string> $hashMap */
+        $hashMap = HashMap::empty();
+
+        $hashMap->put($equalHashableOne, 'gardening');
+        $hashMap->put($equalHashableTwo, 'specially');
+
+        $actual = $hashMap->get($equalHashableOne);
+        self::assertSame('specially', $actual);
+    }
+
+    /** @test */
+    public function key_with_same_hashcode_should_should_yield_value_according_to_equals_method(): void
+    {
+        $unequalHashableOne = new UnequalHashable(1, 2);
+        $unequalHashableTwo = new UnequalHashable(1, 3);
+
+        /** @var HashMap<UnequalHashable, string> $hashMap */
+        $hashMap = HashMap::empty();
+
+        $hashMap->put($unequalHashableOne, 'andorra');
+        $hashMap->put($unequalHashableTwo, 'identifier');
+
+        $actualOne = $hashMap->get($unequalHashableOne);
+        $actualTwo = $hashMap->get($unequalHashableTwo);
+        self::assertSame('andorra', $actualOne);
+        self::assertSame('identifier', $actualTwo);
     }
 
     /** @test */
@@ -98,8 +135,35 @@ final class HashMapTest extends TestCase
         $hashMap->put(2, 'two');
         $hashMap->put(3, 'three');
 
-        $expected = DefaultSeries::fromArray(['one', 'two', 'three']);
-        self::assertEquals($expected, $hashMap->values());
+        self::assertEquals(['one', 'two', 'three'], $hashMap->values()->toArray());
+    }
+
+    /** @test */
+    public function it_should_return_all_values_with_same_hash(): void
+    {
+        $one = new UnequalHashable(5, 1);
+        $two = new UnequalHashable(5, 2);
+
+        /** @var HashMap<UnequalHashable, string> $hashMap */
+        $hashMap = HashMap::empty();
+
+        $hashMap->put($one, 'one');
+        $hashMap->put($two, 'two');
+
+        self::assertEquals(['one', 'two'], $hashMap->values()->toArray());
+    }
+
+    /** @test */
+    public function it_should_return_null_if_a_value_for_the_key_doesnt_exist(): void
+    {
+        /** @var HashMap<int, int> $hashMap */
+        $hashMap = HashMap::empty();
+
+        $hashMap->put(1, 1);
+
+        $valueAt2 = $hashMap->get(2);
+
+        self::assertNull($valueAt2);
     }
 
 

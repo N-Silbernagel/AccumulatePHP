@@ -6,9 +6,13 @@ namespace Tests\Map;
 
 use AccumulatePHP\Hashable;
 
-final class SomeHashable implements Hashable
+final class EqualHashable implements Hashable
 {
-    private string $value = 'debian';
+    public function __construct(
+        private readonly string $value
+    )
+    {
+    }
 
     public function hashcode(): string
     {
@@ -25,7 +29,7 @@ final class SomeHashable implements Hashable
             return false;
         }
 
-        /** @var SomeHashable $object */
+        /** @var EqualHashable $object */
 
         return $object->getValue() === $this->value;
     }
