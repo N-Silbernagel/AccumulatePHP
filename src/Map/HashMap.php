@@ -72,7 +72,7 @@ final class HashMap implements MutableMap
     public function values(): Series
     {
         /** @var MutableArraySeries<TValue> $series */
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
         foreach ($this->repository as $bucket) {
             foreach ($bucket as $entry) {
                 $series->add($entry->getValue());

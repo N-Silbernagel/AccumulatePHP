@@ -25,10 +25,10 @@ final class DefaultSeries implements Series
      * @return self<T>
      */
     #[Pure]
-    public static function empty(): self
+    public static function new(): self
     {
         /** @var Series<T> $initSeries */
-        $initSeries = MutableArraySeries::empty();
+        $initSeries = MutableArraySeries::new();
         return new self($initSeries);
     }
 

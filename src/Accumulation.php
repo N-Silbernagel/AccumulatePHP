@@ -17,7 +17,7 @@ interface Accumulation extends Countable, Iterator {
     /**
      * @return static<TValue>
      */
-    public static function empty(): Accumulation;
+    public static function new(): Accumulation;
 
     public function isEmpty(): bool;
 

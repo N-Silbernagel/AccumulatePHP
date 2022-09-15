@@ -27,7 +27,7 @@ final class MutableArraySeries implements MutableSeries
      * @return self<T>
      */
     #[Pure]
-    public static function empty(): self
+    public static function new(): self
     {
         return new self([]);
     }

@@ -15,7 +15,7 @@ final class MutableArraySeriesTest extends TestCase
     /** @test */
     public function it_should_be_empty_by_default(): void
     {
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
 
         self::assertSame(0, $series->count());
     }
@@ -24,7 +24,7 @@ final class MutableArraySeriesTest extends TestCase
     public function it_should_allow_adding_items(): void
     {
         /** @var MutableArraySeries<int> $series */
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
 
         $series->add(1);
 
@@ -35,7 +35,7 @@ final class MutableArraySeriesTest extends TestCase
     public function it_should_allow_removing_items_by_index(): void
     {
         /** @var MutableSeries<int> $series */
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
 
         $series->add(10);
 
@@ -50,7 +50,7 @@ final class MutableArraySeriesTest extends TestCase
         /**
          * @var MutableArraySeries<int> $series
          */
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
 
         $series->add(13);
 
@@ -65,7 +65,7 @@ final class MutableArraySeriesTest extends TestCase
         /**
          * @var MutableArraySeries<string> $series
          */
-        $series = MutableArraySeries::empty();
+        $series = MutableArraySeries::new();
 
         $series->add('test5');
         $series->add('test2');
