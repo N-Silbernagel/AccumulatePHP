@@ -10,11 +10,11 @@ Every had to track down a bug just to find out that that one array_unique call t
 AccumulatePHP provides first class support for static analysis by using generics constantly being checked at PHPStan level 9.
 
 ## Structure
-### Pile
-The Pile interface should be used to typehint against when only a basic collection (pile) of items is needed. It keeps the door open for switching out implementations. For example from Series to Set (not available yet).
+### Accumulation
+The Accumulation interface should be used to typehint against when only a basic collection (Accumulation) of items is needed. It keeps the door open for switching out implementations. For example from Series to Set (not available yet).
 
 ### Series
-A Pile with guaranteed order.
+An accumulation with guaranteed order.
 
 ### MutableSeries
 A series which can be modified.

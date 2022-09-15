@@ -9,8 +9,9 @@ use Iterator;
 use OutOfBoundsException;
 
 /**
+ * @template TKey
  * @template TValue
- * @extends Iterator<int, TValue>
+ * @extends Iterator<TKey, TValue>
  */
 interface Accumulation extends Countable, Iterator {
     /**
@@ -26,8 +27,8 @@ interface Accumulation extends Countable, Iterator {
     public function current(): mixed;
 
     /**
-     * @throws OutOfBoundsException if index is out of bounds for pile
-     * @throws StringKeyException if the index of a pile is a string
+     * @throws OutOfBoundsException if index is out of bounds for accumulation
+     * @return TKey
      */
-    public function key(): int;
+    public function key(): mixed;
 }

@@ -23,7 +23,7 @@ interface Map
     public function count(): int;
 
     /**
-     * @return Accumulation<TValue>
+     * @return Accumulation<int, TValue>
      */
     public function values(): Accumulation;
 }

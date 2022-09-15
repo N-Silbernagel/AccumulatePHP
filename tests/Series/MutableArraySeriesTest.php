@@ -167,10 +167,10 @@ final class MutableArraySeriesTest extends TestCase
         $inputArray = ['123', 5, -13];
 
         /**
-         * @var Accumulation<int|string> $pile
+         * @var Accumulation<int, int|string> $accumulation
          */
-        $pile = MutableArraySeries::fromArray($inputArray);
-        foreach ($pile as $item) {
+        $accumulation = MutableArraySeries::fromArray($inputArray);
+        foreach ($accumulation as $item) {
             $traversedItems[] = $item;
         }
 
@@ -198,16 +198,16 @@ final class MutableArraySeriesTest extends TestCase
         /**
          * @var MutableSeries<mixed>
          */
-        $pile = MutableArraySeries::of();
+        $series = MutableArraySeries::of();
 
-        self::assertTrue($pile->isEmpty());
+        self::assertTrue($series->isEmpty());
 
-        $pile->add(1);
+        $series->add(1);
 
-        self::assertFalse($pile->isEmpty());
+        self::assertFalse($series->isEmpty());
 
-        $pile->remove(0);
+        $series->remove(0);
 
-        self::assertTrue($pile->isEmpty());
+        self::assertTrue($series->isEmpty());
     }
 }

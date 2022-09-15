@@ -8,7 +8,7 @@ use AccumulatePHP\Accumulation;
 
 /**
  * @template T
- * @extends Accumulation<T>
+ * @extends Accumulation<int,T>
  */
 interface Series extends Accumulation
 {
