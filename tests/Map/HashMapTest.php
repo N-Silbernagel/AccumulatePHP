@@ -14,7 +14,7 @@ final class HashMapTest extends TestCase
     /** @test */
     public function it_should_allow_creating_empty_instance(): void
     {
-        $emptyMap = HashMap::empty();
+        $emptyMap = HashMap::new();
 
         self::assertTrue($emptyMap->isEmpty());
     }
@@ -23,7 +23,7 @@ final class HashMapTest extends TestCase
     public function it_should_allow_adding_entries_with_string_keys(): void
     {
         /** @var HashMap<string, int> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put('abc', 1);
 
@@ -37,7 +37,7 @@ final class HashMapTest extends TestCase
     public function it_should_allow_adding_entries_with_int_keys(): void
     {
         /** @var HashMap<string, int> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put('abc', 1);
 
@@ -52,7 +52,7 @@ final class HashMapTest extends TestCase
         $stdClass = (object) [];
 
         /** @var HashMap<\stdClass, int> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($stdClass, 3);
 
@@ -67,7 +67,7 @@ final class HashMapTest extends TestCase
         $hashable = new EqualHashable('period');
 
         /** @var HashMap<EqualHashable, int> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($hashable, 3);
 
@@ -83,7 +83,7 @@ final class HashMapTest extends TestCase
         $equalHashableTwo = new EqualHashable('overnight');
 
         /** @var HashMap<EqualHashable, string> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($equalHashableOne, 'gardening');
 
@@ -98,7 +98,7 @@ final class HashMapTest extends TestCase
         $equalHashableTwo = new EqualHashable('overnight');
 
         /** @var HashMap<EqualHashable, string> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($equalHashableOne, 'gardening');
         $hashMap->put($equalHashableTwo, 'specially');
@@ -114,7 +114,7 @@ final class HashMapTest extends TestCase
         $unequalHashableTwo = new UnequalHashable(1, 3);
 
         /** @var HashMap<UnequalHashable, string> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($unequalHashableOne, 'andorra');
         $hashMap->put($unequalHashableTwo, 'identifier');
@@ -129,7 +129,7 @@ final class HashMapTest extends TestCase
     public function it_should_return_all_values(): void
     {
         /** @var HashMap<int, string> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put(1, 'one');
         $hashMap->put(2, 'two');
@@ -145,7 +145,7 @@ final class HashMapTest extends TestCase
         $two = new UnequalHashable(5, 2);
 
         /** @var HashMap<UnequalHashable, string> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put($one, 'one');
         $hashMap->put($two, 'two');
@@ -157,7 +157,7 @@ final class HashMapTest extends TestCase
     public function it_should_return_null_if_a_value_for_the_key_doesnt_exist(): void
     {
         /** @var HashMap<int, int> $hashMap */
-        $hashMap = HashMap::empty();
+        $hashMap = HashMap::new();
 
         $hashMap->put(1, 1);
 

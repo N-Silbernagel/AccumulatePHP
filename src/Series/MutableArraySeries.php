@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AccumulatePHP\Series;
 
 
-use AccumulatePHP\StringKeyException;
 use JetBrains\PhpStorm\Pure;
 use OutOfBoundsException;
 
@@ -136,11 +135,7 @@ final class MutableArraySeries implements MutableSeries
             throw new OutOfBoundsException();
         }
 
-        if (is_string($key)) {
-            throw new StringKeyException();
-        }
-
-        return $key;
+        return (int) $key;
     }
 
     public function valid(): bool
@@ -148,7 +143,7 @@ final class MutableArraySeries implements MutableSeries
         try {
             $this->key();
             return true;
-        } catch (OutOfBoundsException|StringKeyException) {
+        } catch (OutOfBoundsException) {
             return false;
         }
     }

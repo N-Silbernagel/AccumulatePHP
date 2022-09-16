@@ -29,7 +29,7 @@ final class HashMap implements MutableMap
     /**
      * @return self<TKey, TValue>
      */
-    public static function empty(): self
+    public static function new(): self
     {
         return new self();
     }
