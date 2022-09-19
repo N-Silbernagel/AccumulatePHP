@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
-use AccumulatePHP\Hashable;
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Series\DefaultSeries;
+use AccumulatePHP\Map\UnsupportedHashMapKeyException;
 use PHPUnit\Framework\TestCase;
 
 final class HashMapTest extends TestCase
@@ -164,6 +163,19 @@ final class HashMapTest extends TestCase
         $valueAt2 = $hashMap->get(2);
 
         self::assertNull($valueAt2);
+    }
+
+    /** @test */
+    public function it_should_throw_when_given_a_resource_as_key()
+    {
+        $resource = fopen(__DIR__ . '/teststream.txt', 'r');
+
+        /** @var HashMap<resource, int> $hashMap */
+        $hashMap = HashMap::new();
+
+        $this->expectException(UnsupportedHashMapKeyException::class);
+
+        $hashMap->put($resource, 1);
     }
 
 
