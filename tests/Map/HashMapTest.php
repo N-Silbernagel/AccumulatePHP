@@ -166,9 +166,13 @@ final class HashMapTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_when_given_a_resource_as_key()
+    public function it_should_throw_when_given_a_resource_as_key(): void
     {
         $resource = fopen(__DIR__ . '/teststream.txt', 'r');
+
+        if ($resource === false) {
+            self::fail('Could not open teststream file');
+        }
 
         /** @var HashMap<resource, int> $hashMap */
         $hashMap = HashMap::new();
