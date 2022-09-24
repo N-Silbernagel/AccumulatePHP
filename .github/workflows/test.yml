@@ -1,4 +1,4 @@
-name: Run tests and analysis
+name: Build, analyse and test
 
 on:
   push:
@@ -9,26 +9,126 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: [ '8.0', '8.1' ]
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          coverage: none
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Run static analysis
-      run: php vendor/bin/phpstan analyse
-      
-    - name: Run testsuite
-      run: php vendor/bin/phpunit .
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Check file rector downgrade config existance
+        id: check_downgrade
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "rector-downgrade-${{ matrix.php_version }}.php"
+
+      - name: rector downgrade
+        if: steps.check_downgrade.outputs.files_exists == 'true'
+        run: 'php vendor/bin/rector process --config rector-downgrade-${{ matrix.php_version }}.php'
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: ${{ matrix.php_version }}
+          path: |
+            src
+            tests
+            ! vendor
+          if-no-files-found: error
+
+  analyse:
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: [ '8.0', '8.1' ]
+
+    needs:
+      - build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          coverage: none
+
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{ matrix.php_version }}
+          path: .
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run static analysis
+        run: php vendor/bin/phpstan analyse
+
+  test:
+    needs:
+      - build
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: [ '8.0', '8.1' ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          coverage: none
+
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{ matrix.php_version }}
+          path: .
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run testsuite
+        run: php vendor/bin/phpunit tests
