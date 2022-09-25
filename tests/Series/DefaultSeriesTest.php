@@ -149,7 +149,7 @@ final class DefaultSeriesTest extends TestCase
     }
 
     /** @test */
-    public function it_should_keep_track_of_its_current_key()
+    public function it_should_keep_track_of_its_current_key(): void
     {
         /** @var DefaultSeries<int> $defaultSeries */
         $defaultSeries = DefaultSeries::fromArray([0, 1, 2]);
