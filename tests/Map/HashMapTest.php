@@ -181,6 +181,4 @@ final class HashMapTest extends TestCase
 
         $hashMap->put($resource, 1);
     }
-
-
 }

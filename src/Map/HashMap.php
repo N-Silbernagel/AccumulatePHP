@@ -141,10 +141,6 @@ final class HashMap implements MutableMap
 
     private function keyEquals(mixed $one, mixed $two): bool
     {
-        if (gettype($one) !== gettype($two)) {
-            return false;
-        }
-
         if ($one instanceof Hashable && $two instanceof Hashable) {
             return $one->equals($two);
         }
