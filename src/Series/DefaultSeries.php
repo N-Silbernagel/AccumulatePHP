@@ -33,6 +33,16 @@ final class DefaultSeries implements Series
     }
 
     /**
+     * @param T... $items
+     * @return self<T>
+     */
+    #[Pure]
+    public static function of(...$items): self
+    {
+        return self::fromArray($items);
+    }
+
+    /**
      * @template SeriesT
      * @param Series<SeriesT> $series
      * @return self<SeriesT>
@@ -101,7 +111,7 @@ final class DefaultSeries implements Series
 
     public function get(int $index): mixed
     {
-        return $this->repository->get(0);
+        return $this->repository->get($index);
     }
 
     public function toArray(): array
