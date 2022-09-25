@@ -41,11 +41,7 @@ final class HashMap implements MutableMap
     {
         $hash = $this->evaluateHash($key);
 
-        if (!array_key_exists($hash, $this->repository)) {
-            return null;
-        }
-
-        $bucket = $this->repository[$hash];
+        $bucket = $this->repository[$hash] ?? new SplDoublyLinkedList();
 
         foreach ($bucket as $entry) {
             if ($this->keyEquals($entry->getKey(), $key)) {
