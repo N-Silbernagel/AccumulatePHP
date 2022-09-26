@@ -116,5 +116,5 @@ jobs:
       - name: "Create new minor tag"
         uses: rickstaa/action-create-tag@v1
         with:
-          tag: 0.2.0-1
+          tag: 0.2.1-1
           message: test
