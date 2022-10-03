@@ -9,7 +9,7 @@ use AccumulatePHP\Hashable;
 final class EqualHashable implements Hashable
 {
     public function __construct(
-        private readonly string $value
+        private string $value
     )
     {
     }

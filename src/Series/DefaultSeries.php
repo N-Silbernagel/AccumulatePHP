@@ -16,7 +16,7 @@ final class DefaultSeries implements Series
      * @param Series<T> $repository
      */
     private function __construct(
-        private readonly Series $repository
+        private Series $repository
     )
     {
     }
