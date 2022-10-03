@@ -137,6 +137,6 @@ jobs:
         run: |
           git add .
           git commit -m "Release downgraded"
-          VERSION_PART=$(echo '8.0' | sed -e 's/\.//g')
+          VERSION_PART=$(echo ${{ matrix.php_version }} | sed -e 's/\.//g')
           git tag ${GITHUB_REF#refs/tags/}.$VERSION_PART
           git push --tags
