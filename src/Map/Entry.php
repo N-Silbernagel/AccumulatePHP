@@ -15,8 +15,8 @@ final class Entry
      * @param TValue $value
      */
     private function __construct(
-        private readonly mixed $key,
-        private readonly mixed $value,
+        private mixed $key,
+        private mixed $value,
     )
     {
     }

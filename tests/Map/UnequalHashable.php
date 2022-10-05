@@ -9,8 +9,8 @@ use AccumulatePHP\Hashable;
 final class UnequalHashable implements Hashable
 {
     public function __construct(
-        private readonly int $one,
-        private readonly int $two
+        private int $one,
+        private int $two
     )
     {
     }
