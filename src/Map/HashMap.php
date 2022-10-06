@@ -16,6 +16,7 @@ use SplDoublyLinkedList;
  */
 final class HashMap implements MutableMap
 {
+    private int $size;
     /**
      * @var array<int|string, SplDoublyLinkedList<Entry<TKey, TValue>>>
      */
@@ -23,6 +24,7 @@ final class HashMap implements MutableMap
 
     private function __construct()
     {
+        $this->size = 0;
         $this->repository = [];
     }
 
@@ -59,7 +61,7 @@ final class HashMap implements MutableMap
 
     public function count(): int
     {
-        return count($this->repository);
+        return $this->size;
     }
 
     /**
@@ -112,6 +114,7 @@ final class HashMap implements MutableMap
 
         $bucket->push($entry);
 
+        $this->size++;
         return $value;
     }
 

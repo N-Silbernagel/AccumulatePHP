@@ -181,4 +181,21 @@ final class HashMapTest extends TestCase
 
         $hashMap->put($resource, 1);
     }
+
+    /** @test */
+    public function it_should_keep_correct_count_even_if_a_bucket_has_more_than_1_element(): void
+    {
+        /** @var HashMap<UnequalHashable, bool> $hashMap */
+        $hashMap = HashMap::new();
+
+        $one = new UnequalHashable(1, 1);
+        $two = new UnequalHashable(1, 2);
+
+        $hashMap->put($one, true);
+        $hashMap->put($two, true);
+
+        self::assertSame(2, $hashMap->count());
+    }
+
+
 }
