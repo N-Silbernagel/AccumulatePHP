@@ -169,4 +169,15 @@ final class MutableArraySeries implements MutableSeries
     {
         return in_array($element, $this->repository, true);
     }
+
+    public function find(callable $findConsumer): mixed
+    {
+        $filtered = $this->filter($findConsumer);
+
+        if ($filtered->isEmpty()) {
+            return null;
+        }
+
+        return $filtered->get(0);
+    }
 }

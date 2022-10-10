@@ -250,4 +250,24 @@ final class MutableArraySeriesTest extends TestCase
         self::assertTrue($series->contains(2));
         self::assertFalse($series->contains('2'));
     }
+
+    /** @test */
+    public function find_should_return_match_if_exists(): void
+    {
+        /** @var Series<string> $series */
+        $series = MutableArraySeries::of('hello', 'world');
+
+        $actual = $series->find(fn(string $element) => str_starts_with($element, 'w'));
+        self::assertSame('world', $actual);
+    }
+
+    /** @test */
+    public function find_should_return_null_if_no_match_exists(): void
+    {
+        /** @var Series<string> $series */
+        $series = MutableArraySeries::of('hello', 'world');
+
+        $actual = $series->find(fn(string $element) => str_starts_with($element, 'not'));
+        self::assertNull($actual);
+    }
 }

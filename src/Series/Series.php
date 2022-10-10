@@ -40,4 +40,10 @@ interface Series extends Accumulation
 
     /** @param T $element */
     public function contains(mixed $element): bool;
+
+    /**
+     * @param callable(T): bool $findConsumer
+     * @return T|null first element that matched the consumer or null
+     */
+    public function find(callable $findConsumer): mixed;
 }

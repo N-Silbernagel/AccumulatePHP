@@ -137,4 +137,9 @@ final class DefaultSeries implements Series
     {
         return $this->repository->contains($element);
     }
+
+    public function find(callable $findConsumer): mixed
+    {
+        return $this->repository->find($findConsumer);
+    }
 }
