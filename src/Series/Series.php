@@ -34,4 +34,10 @@ interface Series extends Accumulation
      * @return Series<T>
      */
     public function filter(callable $filterConsumer): Series;
+
+    /** @param T $element */
+    public function containsLoose(mixed $element): bool;
+
+    /** @param T $element */
+    public function contains(mixed $element): bool;
 }

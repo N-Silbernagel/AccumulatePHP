@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Series;
 
-use AccumulatePHP\Accumulation;
 use AccumulatePHP\Series\DefaultSeries;
 use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
@@ -161,5 +160,43 @@ final class DefaultSeriesTest extends TestCase
         self::assertSame(1, $defaultSeries->key());
     }
 
+    /** @test */
+    public function it_should_know_if_it_contains_element(): void
+    {
+        /** @var Series<int> $series */
+        $series = DefaultSeries::of(1, 2, 3);
 
+        self::assertTrue($series->containsLoose(1));
+        self::assertFalse($series->containsLoose(4));
+    }
+
+    /** @test */
+    public function contains_loose_should_be_non_strict(): void
+    {
+        /** @var Series<int|string> $series */
+        $series = DefaultSeries::of(1, 2, 3);
+
+        self::assertTrue($series->containsLoose(2));
+        self::assertTrue($series->containsLoose('2'));
+    }
+
+    /** @test */
+    public function it_should_know_if_it_strictly_contains_element(): void
+    {
+        /** @var Series<int> $series */
+        $series = DefaultSeries::of(9, 55, 2);
+
+        self::assertTrue($series->contains(55));
+        self::assertFalse($series->contains(100));
+    }
+
+    /** @test */
+    public function contains_should_be_strict(): void
+    {
+        /** @var Series<int|string> $series */
+        $series = DefaultSeries::of(1, 2, 3);
+
+        self::assertTrue($series->contains(2));
+        self::assertFalse($series->contains('2'));
+    }
 }

@@ -158,4 +158,15 @@ final class MutableArraySeries implements MutableSeries
     {
         return $this->count() === 0;
     }
+
+    public function containsLoose(mixed $element): bool
+    {
+        /** @phpstan-ignore-next-line */
+        return in_array($element, $this->repository);
+    }
+
+    public function contains(mixed $element): bool
+    {
+        return in_array($element, $this->repository, true);
+    }
 }

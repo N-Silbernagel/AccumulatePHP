@@ -127,4 +127,14 @@ final class DefaultSeries implements Series
     {
         return self::fromSeries($this->repository->filter($filterConsumer));
     }
+
+    public function containsLoose(mixed $element): bool
+    {
+        return $this->repository->containsLoose($element);
+    }
+
+    public function contains(mixed $element): bool
+    {
+        return $this->repository->contains($element);
+    }
 }
