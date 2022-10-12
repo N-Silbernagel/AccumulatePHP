@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
+use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Map\UnsupportedHashMapKeyException;
+use AccumulatePHP\Map\MutableMap;
+use AccumulatePHP\Map\NotHashableException;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
-final class HashMapTest extends TestCase
+final class HashMapTest extends TestCase implements AccumulationTestContract
 {
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
@@ -169,7 +171,7 @@ final class HashMapTest extends TestCase
     /** @test */
     public function it_should_throw_when_given_a_resource_as_key(): void
     {
-        $resource = fopen(__DIR__ . '/teststream.txt', 'r');
+        $resource = fopen(dirname(__DIR__) . '/teststream.txt', 'r');
 
         if ($resource === false) {
             self::fail('Could not open teststream file');
@@ -178,7 +180,7 @@ final class HashMapTest extends TestCase
         /** @var HashMap<resource, int> $hashMap */
         $hashMap = HashMap::new();
 
-        $this->expectException(UnsupportedHashMapKeyException::class);
+        $this->expectException(NotHashableException::class);
 
         $hashMap->put($resource, 1);
     }
@@ -196,5 +198,45 @@ final class HashMapTest extends TestCase
         $hashMap->put($two, true);
 
         self::assertSame(2, $hashMap->count());
+    }
+
+    /** @test */
+    public function it_should_allow_removing_by_key(): void
+    {
+        /** @var HashMap<int, bool> $hashMap */
+        $hashMap = HashMap::new();
+
+        $hashMap->put(1, true);
+
+        $hashMap->remove(1);
+
+        self::assertTrue($hashMap->isEmpty());
+    }
+
+    /** @test */
+    public function it_should_be_traversable(): void
+    {
+        /** @var MutableMap<UnequalHashable, String> $map */
+        $map = HashMap::new();
+
+        $one = new UnequalHashable(1, 1);
+        $two = new UnequalHashable(1, 2);
+        $three = new UnequalHashable(2, 1);
+
+        $map->put($one, 'b');
+        $map->put($two, 'a');
+        $map->put($three, 'c');
+
+        $actual = [];
+        foreach ($map as $item) {
+            $actual[] = $item;
+        }
+
+        $entryOne = Entry::of($one, 'b');
+        $entryTwo = Entry::of($two, 'a');
+        $entryThree = Entry::of($three, 'c');
+
+        $expected = [$entryOne, $entryTwo, $entryThree];
+        self::assertEqualsCanonicalizing($expected, $actual);
     }
 }

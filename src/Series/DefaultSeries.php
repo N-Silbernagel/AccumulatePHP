@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Series;
 
+use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
+use Traversable;
 
 /**
  * @template T
  * @implements Series<T>
+ * @implements IteratorAggregate<int, T>
  */
-final class DefaultSeries implements Series
+final class DefaultSeries implements Series, IteratorAggregate
 {
     /**
      * @param Series<T> $repository
@@ -64,21 +67,6 @@ final class DefaultSeries implements Series
         return new self(MutableArraySeries::fromArray($array));
     }
 
-    public function next(): void
-    {
-        $this->repository->next();
-    }
-
-    public function valid(): bool
-    {
-        return $this->repository->valid();
-    }
-
-    public function rewind(): void
-    {
-        $this->repository->rewind();
-    }
-
     public function count(): int
     {
         return $this->repository->count();
@@ -87,16 +75,6 @@ final class DefaultSeries implements Series
     public function isEmpty(): bool
     {
         return $this->repository->isEmpty();
-    }
-
-    public function current(): mixed
-    {
-        return $this->repository->current();
-    }
-
-    public function key(): int
-    {
-        return $this->repository->key();
     }
 
     /**
@@ -141,5 +119,12 @@ final class DefaultSeries implements Series
     public function find(callable $findConsumer): mixed
     {
         return $this->repository->find($findConsumer);
+    }
+
+    public function getIterator(): Traversable
+    {
+        foreach ($this->repository as $value) {
+            yield $value;
+        }
     }
 }

@@ -8,7 +8,6 @@ use AccumulatePHP\Series\DefaultSeries;
 use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
-use Tests\SeriesTestContract;
 
 final class DefaultSeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract
 {
@@ -147,19 +146,6 @@ final class DefaultSeriesTest extends TestCase implements AccumulationTestContra
 
         self::assertSame(0, $series->get(0));
         self::assertSame(10, $series->get(1));
-    }
-
-    /** @test */
-    public function it_should_keep_track_of_its_current_key(): void
-    {
-        /** @var DefaultSeries<int> $defaultSeries */
-        $defaultSeries = DefaultSeries::fromArray([0, 1, 2]);
-
-        self::assertSame(0, $defaultSeries->key());
-
-        $defaultSeries->next();
-
-        self::assertSame(1, $defaultSeries->key());
     }
 
     /** @test */

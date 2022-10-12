@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace AccumulatePHP\Series;
 
 
+use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
-use OutOfBoundsException;
+use Traversable;
 
 /**
  * @template T
  * @implements MutableSeries<T>
+ * @implements IteratorAggregate<int, T>
  */
-final class MutableArraySeries implements MutableSeries
+final class MutableArraySeries implements MutableSeries, IteratorAggregate
 {
     /**
      * @param array<T> $repository the internal array used for keeping the values
@@ -132,49 +134,17 @@ final class MutableArraySeries implements MutableSeries
         return self::fromArray($filteredRepo);
     }
 
-    /**
-     * @return T|false
-     */
-    public function current(): mixed
-    {
-        return current($this->repository);
-    }
-
-    public function next(): void
-    {
-        next($this->repository);
-    }
-
-    public function key(): int
-    {
-        $key = key($this->repository);
-
-        if (is_null($key)) {
-            throw new OutOfBoundsException();
-        }
-
-        return (int) $key;
-    }
-
-    public function valid(): bool
-    {
-        try {
-            $this->key();
-            return true;
-        } catch (OutOfBoundsException) {
-            return false;
-        }
-    }
-
-    public function rewind(): void
-    {
-        reset($this->repository);
-    }
-
     #[Pure]
     public function isEmpty(): bool
     {
         return $this->count() === 0;
+    }
+
+    public function getIterator(): Traversable
+    {
+        foreach ($this->repository as $value) {
+            yield $value;
+        }
     }
 
     public function containsLoose(mixed $element): bool

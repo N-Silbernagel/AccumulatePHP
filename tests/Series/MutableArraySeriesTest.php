@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Tests\Series;
 
 use AccumulatePHP\Accumulation;
-use AccumulatePHP\Series\Series;
-use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\MutableArraySeries;
+use AccumulatePHP\Series\MutableSeries;
+use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
-use Tests\SeriesTestContract;
 
 final class MutableArraySeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract
 {

@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Hashable;
+use AccumulatePHP\MixedHash;
 use AccumulatePHP\Series\MutableArraySeries;
 use AccumulatePHP\Series\Series;
+use IteratorAggregate;
 use SplDoublyLinkedList;
+use Traversable;
 
 /**
  * @template TKey
  * @template TValue
  * @implements MutableMap<TKey, TValue>
+ * @implements IteratorAggregate<int, Entry<TKey, TValue>>
  */
-final class HashMap implements MutableMap
+final class HashMap implements MutableMap, IteratorAggregate
 {
     private int $size;
     /**
@@ -36,9 +40,6 @@ final class HashMap implements MutableMap
         return new self();
     }
 
-    /**
-     * @throws UnsupportedHashMapKeyException
-     */
     public function get(mixed $key): mixed
     {
         $hash = $this->evaluateHash($key);
@@ -82,7 +83,7 @@ final class HashMap implements MutableMap
     /**
      * @param TKey $key
      * @param TValue $value
-     * @throws UnsupportedHashMapKeyException
+     * @return TValue|null the previous item for the key or null if there was none
      */
     public function put(mixed $key, mixed $value): mixed
     {
@@ -91,7 +92,6 @@ final class HashMap implements MutableMap
         if (!array_key_exists($hash, $this->repository)) {
             $this->repository[$hash] = new SplDoublyLinkedList();
         }
-
 
         $bucket = $this->repository[$hash];
 
@@ -102,40 +102,63 @@ final class HashMap implements MutableMap
             }
         }
 
-
         /** @var Entry<TKey, TValue> $entry */
         $entry = Entry::of($key, $value);
 
-
         if ($bucketIndex !== -1) {
+            /** @var Entry<TKey, TValue> $previousValue */
+            $previousValue = $bucket[$bucketIndex];
             $bucket[$bucketIndex] = $entry;
-            return $value;
+            return $previousValue->getValue();
         }
 
         $bucket->push($entry);
 
         $this->size++;
-        return $value;
+        return null;
+    }
+
+    public function remove(mixed $key): mixed
+    {
+        $hash = $this->evaluateHash($key);
+
+        // TODO refactor duplicate code after tests are present
+        if (!array_key_exists($hash, $this->repository)) {
+            return null;
+        }
+
+        $bucket = $this->repository[$hash];
+
+        $bucketIndex = -1;
+        foreach ($bucket as $index => $item) {
+            if ($this->keyEquals($item->getKey(), $key)) {
+                $bucketIndex = $index;
+            }
+        }
+
+        if ($bucketIndex === -1) {
+            return null;
+        }
+
+        /** @var Entry<TKey, TValue> $previousValue */
+        $previousValue = $bucket[$bucketIndex];
+        unset($bucket[$bucketIndex]);
+
+        if (count($bucket) === 0) {
+            unset($this->repository[$hash]);
+        }
+
+        $this->size--;
+        return $previousValue->getValue();
     }
 
     /**
-     * @throws UnsupportedHashMapKeyException
+     * @throws NotHashableException
      */
     private function evaluateHash(mixed $key): string|int
     {
-        if ($key instanceof Hashable) {
-            return $key->hashcode();
-        }
-
-        if (is_object($key)) {
-            return spl_object_hash($key);
-        }
-
-        if (is_int($key) || is_string($key)) {
-            return $key;
-        }
-
-        throw new UnsupportedHashMapKeyException();
+        return MixedHash::for($key)
+            ->computeHash();
     }
 
     private function keyEquals(mixed $one, mixed $two): bool
@@ -145,5 +168,14 @@ final class HashMap implements MutableMap
         }
 
         return $one === $two;
+    }
+
+    public function getIterator(): Traversable
+    {
+        foreach ($this->repository as $bucket) {
+            foreach ($bucket as $item) {
+                yield $item;
+            }
+        }
     }
 }

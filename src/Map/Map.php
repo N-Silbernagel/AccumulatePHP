@@ -9,8 +9,9 @@ use AccumulatePHP\Accumulation;
 /**
  * @template TKey
  * @template TValue
+ * @extends Accumulation<int, Entry<TKey, TValue>>
  */
-interface Map
+interface Map extends Accumulation
 {
     /**
      * @param TKey $key
