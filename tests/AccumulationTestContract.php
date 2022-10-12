@@ -7,9 +7,9 @@ namespace Tests;
 
 interface AccumulationTestContract
 {
-    /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void;
 
-    /** @test */
     public function it_should_be_traversable(): void;
+
+    public function it_should_be_instantiatable_from_array(): void;
 }

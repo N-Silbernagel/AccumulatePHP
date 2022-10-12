@@ -37,7 +37,7 @@ final class DefaultSeriesTest extends TestCase implements AccumulationTestContra
     }
 
     /** @test */
-    public function it_should_be_creatable_from_array(): void
+    public function it_should_be_instantiatable_from_array(): void
     {
         /** @var array<int> $intArray */
         $intArray = [1, 10, 5];

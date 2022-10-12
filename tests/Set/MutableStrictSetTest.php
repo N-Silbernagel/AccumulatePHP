@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Set;
 
+use AccumulatePHP\Set\MutableHashSet;
 use AccumulatePHP\Set\MutableStrictSet;
 use AccumulatePHP\Set\MutableSet;
 use AccumulatePHP\Set\Set;
@@ -144,5 +145,14 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
         $mutableHashSet->add(66);
 
         self::assertFalse($mutableHashSet->contains(54));
+    }
+
+    /** @test */
+    public function it_should_be_instantiatable_from_array(): void
+    {
+        $hashSet = MutableStrictSet::fromArray(['me', 'myself']);
+
+        self::assertTrue($hashSet->contains('me'));
+        self::assertTrue($hashSet->contains('myself'));
     }
 }

@@ -14,9 +14,15 @@ use Traversable;
  */
 interface Accumulation extends Countable, Traversable {
     /**
-     * @return static<TValue>
+     * @return static<TKey, TValue>
      */
     public static function new(): Accumulation;
+
+    /**
+     * @param array<TKey, TValue> $array
+     * @return static<TKey, TValue>
+     */
+    public static function fromArray(array $array): Accumulation;
 
     public function isEmpty(): bool;
 }

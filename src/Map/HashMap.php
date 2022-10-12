@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
+use AccumulatePHP\Accumulation;
 use AccumulatePHP\Hashable;
 use AccumulatePHP\MixedHash;
 use AccumulatePHP\Series\MutableArraySeries;
@@ -177,5 +178,20 @@ final class HashMap implements MutableMap, IteratorAggregate
                 yield $item;
             }
         }
+    }
+
+    /**
+     * @param array<TKey, TValue> $array>
+     * @return self<TKey, TValue>
+     */
+    public static function fromArray(array $array): self
+    {
+        $new = self::new();
+
+        foreach ($array as $entry) {
+            $new->put($entry->getKey(), $entry->getValue());
+        }
+
+        return $new;
     }
 }

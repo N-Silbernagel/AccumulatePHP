@@ -65,4 +65,13 @@ final class MutableHashSetTest extends TestCase implements AccumulationTestContr
 
         self::assertFalse($mutableHashSet->contains(54));
     }
+
+    /** @test */
+    public function it_should_be_instantiatable_from_array(): void
+    {
+        $hashSet = MutableHashSet::fromArray(['me', 'myself']);
+
+        self::assertTrue($hashSet->contains('me'));
+        self::assertTrue($hashSet->contains('myself'));
+    }
 }

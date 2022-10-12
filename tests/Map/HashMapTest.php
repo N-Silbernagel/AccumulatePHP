@@ -239,4 +239,19 @@ final class HashMapTest extends TestCase implements AccumulationTestContract
         $expected = [$entryOne, $entryTwo, $entryThree];
         self::assertEqualsCanonicalizing($expected, $actual);
     }
+
+    /** @test */
+    public function it_should_be_instantiatable_from_array(): void
+    {
+        $equalHashable = new EqualHashable('g');
+        $hashMap = HashMap::fromArray([
+            Entry::of(1, 1),
+            Entry::of(2, 'test'),
+            Entry::of($equalHashable, $equalHashable)
+        ]);
+
+        self::assertSame(1, $hashMap->get(1));
+        self::assertSame('test', $hashMap->get(2));
+        self::assertSame($equalHashable, $hashMap->get($equalHashable));
+    }
 }

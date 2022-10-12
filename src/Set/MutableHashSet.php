@@ -72,4 +72,19 @@ final class MutableHashSet implements MutableSet, IteratorAggregate
     {
         return $this->hashMap->get($element) !== null;
     }
+
+    /**
+     * @param T[] $array>
+     * @return self<T>
+     */
+    public static function fromArray(array $array): self
+    {
+        $new = self::new();
+
+        foreach ($array as $item) {
+            $new->add($item);
+        }
+
+        return $new;
+    }
 }
