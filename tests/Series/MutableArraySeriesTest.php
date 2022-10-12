@@ -9,11 +9,13 @@ use AccumulatePHP\Series\Series;
 use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\MutableArraySeries;
 use PHPUnit\Framework\TestCase;
+use Tests\AccumulationTestContract;
+use Tests\SeriesTestContract;
 
-final class MutableArraySeriesTest extends TestCase
+final class MutableArraySeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract
 {
     /** @test */
-    public function it_should_be_empty_by_default(): void
+    public function it_should_allow_creating_empty_instance_via_static_factory(): void
     {
         $series = MutableArraySeries::new();
 
@@ -159,7 +161,7 @@ final class MutableArraySeriesTest extends TestCase
     }
 
     /** @test */
-    public function it_is_traversable(): void
+    public function it_should_be_traversable(): void
     {
         $traversedItems = [];
 

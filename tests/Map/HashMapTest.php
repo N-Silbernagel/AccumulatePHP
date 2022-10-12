@@ -7,11 +7,12 @@ namespace Tests\Map;
 use AccumulatePHP\Map\HashMap;
 use AccumulatePHP\Map\UnsupportedHashMapKeyException;
 use PHPUnit\Framework\TestCase;
+use Tests\AccumulationTestContract;
 
 final class HashMapTest extends TestCase
 {
     /** @test */
-    public function it_should_allow_creating_empty_instance(): void
+    public function it_should_allow_creating_empty_instance_via_static_factory(): void
     {
         $emptyMap = HashMap::new();
 
@@ -196,6 +197,4 @@ final class HashMapTest extends TestCase
 
         self::assertSame(2, $hashMap->count());
     }
-
-
 }

@@ -7,11 +7,13 @@ namespace Tests\Series;
 use AccumulatePHP\Series\DefaultSeries;
 use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
+use Tests\AccumulationTestContract;
+use Tests\SeriesTestContract;
 
-final class DefaultSeriesTest extends TestCase
+final class DefaultSeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract
 {
     /** @test */
-    public function it_should_be_empty_by_default(): void
+    public function it_should_allow_creating_empty_instance_via_static_factory(): void
     {
         $series = DefaultSeries::new();
 
@@ -117,7 +119,7 @@ final class DefaultSeriesTest extends TestCase
     }
 
     /** @test */
-    public function it_is_traversable(): void
+    public function it_should_be_traversable(): void
     {
         $traversedItems = [];
 
