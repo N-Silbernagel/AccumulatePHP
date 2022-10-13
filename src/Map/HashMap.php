@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
-use AccumulatePHP\Accumulation;
 use AccumulatePHP\Hashable;
 use AccumulatePHP\MixedHash;
 use AccumulatePHP\Series\MutableArraySeries;
@@ -174,14 +173,14 @@ final class HashMap implements MutableMap, IteratorAggregate
     public function getIterator(): Traversable
     {
         foreach ($this->repository as $bucket) {
-            foreach ($bucket as $item) {
-                yield $item;
+            foreach ($bucket as $entry) {
+                yield $entry;
             }
         }
     }
 
     /**
-     * @param array<TKey, TValue> $array>
+     * @param array<int, Entry<TKey, TValue>> $array>
      * @return self<TKey, TValue>
      */
     public static function fromArray(array $array): self
@@ -193,5 +192,34 @@ final class HashMap implements MutableMap, IteratorAggregate
         }
 
         return $new;
+    }
+
+    /**
+     * @param array<int|string, TValue> $assocArray
+     * @return self<int|string, TValue>
+     */
+    public static function fromAssoc(array $assocArray): self
+    {
+        /** @var HashMap<int|string, TValue> $new */
+        $new = HashMap::new();
+
+        foreach ($assocArray as $key => $value) {
+            $new->put($key, $value);
+        }
+
+        return $new;
+    }
+
+    public function toAssoc(): array
+    {
+        /** @var array<int|string, TValue> $array */
+        $array = [];
+        foreach ($this as $entry) {
+            if (!is_scalar($entry->getKey())) {
+                continue;
+            }
+            $array[$entry->getKey()] = $entry->getValue();
+        }
+        return $array;
     }
 }

@@ -27,4 +27,15 @@ interface Map extends Accumulation
      * @return Accumulation<int, TValue>
      */
     public function values(): Accumulation;
+
+    /**
+     * @param array<int|string, TValue> $assocArray
+     * @return static<int|string, TValue>
+     */
+    public static function fromAssoc(array $assocArray): Map;
+
+    /**
+     * @return array<int|string, TValue>
+     */
+    public function toAssoc(): array;
 }

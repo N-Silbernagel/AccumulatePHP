@@ -6,12 +6,14 @@ namespace Tests\Map;
 
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
+use AccumulatePHP\Map\MutableArrayMap;
 use AccumulatePHP\Map\MutableMap;
 use AccumulatePHP\Map\NotHashableException;
+use AccumulatePHP\MixedHash;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
-final class HashMapTest extends TestCase implements AccumulationTestContract
+final class HashMapTest extends TestCase implements AccumulationTestContract, MapTestContract
 {
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
@@ -253,5 +255,45 @@ final class HashMapTest extends TestCase implements AccumulationTestContract
         self::assertSame(1, $hashMap->get(1));
         self::assertSame('test', $hashMap->get(2));
         self::assertSame($equalHashable, $hashMap->get($equalHashable));
+    }
+
+    /** @test */
+    public function it_should_be_creatable_from_assoc_array(): void
+    {
+        $map = HashMap::fromAssoc([
+            'hello' => 'world',
+            'im' => 'dump',
+        ]);
+
+        self::assertSame('world', $map->get('hello'));
+        self::assertSame('dump', $map->get('im'));
+    }
+
+    /** @test */
+    public function it_should_be_convertable_to_assoc_array(): void
+    {
+        /** @var MutableMap<string|EqualHashable, string> $map */
+        $map = HashMap::new();
+
+        $map->put('hello', 'world');
+
+        self::assertEquals([
+            'hello' => 'world',
+        ], $map->toAssoc());
+    }
+
+    /** @test */
+    public function it_should_ignore_non_scalar_keys_when_converting_to_assoc_array(): void
+    {
+        /** @var MutableMap<string|EqualHashable, string> $map */
+        $map = HashMap::new();
+
+        $hashable = new EqualHashable('test');
+        $map->put('hello', 'world');
+        $map->put($hashable, 'it');
+
+        self::assertEquals([
+            'hello' => 'world',
+        ], $map->toAssoc());
     }
 }
