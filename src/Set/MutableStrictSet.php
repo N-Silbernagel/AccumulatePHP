@@ -35,15 +35,21 @@ final class MutableStrictSet implements MutableSet, IteratorAggregate
     }
 
     /**
-     * @param array<T> $data
+     * @param array<T> $array
      * @return self<T>
      */
-    public static function fromArray(array $data): self
+    public static function fromArray(array $array): self
     {
-        // TODO: array unique does not quite work how we want it here (strict comparison, implement own unique in Series)
-        $unique = array_unique($data);
-        $series = MutableArraySeries::fromArray($unique);
-        return new self($series);
+        /** @var MutableSeries<T> $encounteredValues */
+        $encounteredValues = MutableArraySeries::new();
+
+        foreach ($array as $item) {
+            if (!$encounteredValues->contains($item)) {
+                $encounteredValues->add($item);
+            }
+        }
+
+        return new self($encounteredValues);
     }
 
     public function isEmpty(): bool
