@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Series;
 
 use AccumulatePHP\Accumulation;
+use AccumulatePHP\Series\DefaultSeries;
 use AccumulatePHP\Series\MutableArraySeries;
 use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\Series;
@@ -269,5 +270,27 @@ final class MutableArraySeriesTest extends TestCase implements AccumulationTestC
 
         $actual = $series->find(fn(string $element) => str_starts_with($element, 'not'));
         self::assertNull($actual);
+    }
+
+    /** @test */
+    public function find_index_should_return_index_of_first_match(): void
+    {
+        /** @var MutableSeries<int> $series */
+        $series = MutableArraySeries::of(1, 2, 3, 4, 3);
+
+        $index = $series->findIndex(fn(int $item) => $item === 3);
+
+        self::assertSame(2, $index);
+    }
+
+    /** @test */
+    public function find_index_should_return_null_if_no_match_exists(): void
+    {
+        /** @var MutableSeries<int> $series */
+        $series = MutableArraySeries::of(1, 2, 3, 4);
+
+        $index = $series->findIndex(fn(int $item) => $item === 5);
+
+        self::assertNull($index);
     }
 }

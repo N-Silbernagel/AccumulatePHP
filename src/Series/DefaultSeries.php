@@ -121,6 +121,11 @@ final class DefaultSeries implements Series, IteratorAggregate
         return $this->repository->find($findConsumer);
     }
 
+    public function findIndex(callable $findConsumer): ?int
+    {
+        return $this->repository->findIndex($findConsumer);
+    }
+
     public function getIterator(): Traversable
     {
         foreach ($this->repository as $value) {

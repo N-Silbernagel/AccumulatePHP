@@ -10,6 +10,10 @@ interface SeriesTestContract
     /** @test */
     public function find_should_return_null_if_no_match_exists(): void;
 
+    public function find_index_should_return_null_if_no_match_exists(): void;
+
+    public function find_index_should_return_index_of_first_match(): void;
+
     /** @test */
     public function it_should_know_if_it_strictly_contains_element(): void;
 

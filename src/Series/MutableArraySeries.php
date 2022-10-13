@@ -34,7 +34,7 @@ final class MutableArraySeries implements MutableSeries, IteratorAggregate
     }
 
     /**
-     * @param T... $items
+     * @param T ...$items
      * @return self<T>
      */
     #[Pure]
@@ -160,12 +160,27 @@ final class MutableArraySeries implements MutableSeries, IteratorAggregate
 
     public function find(callable $findConsumer): mixed
     {
-        $filtered = $this->filter($findConsumer);
-
-        if ($filtered->isEmpty()) {
-            return null;
+        foreach ($this->repository as $item) {
+            if ($findConsumer($item)) {
+                return $item;
+            }
         }
 
-        return $filtered->get(0);
+        return null;
+    }
+
+    /**
+     * @param callable(T): bool $findConsumer
+     * @return int|null
+     */
+    public function findIndex(callable $findConsumer): ?int
+    {
+        foreach ($this->repository as $index => $item) {
+            if ($findConsumer($item)) {
+                return $index;
+            }
+        }
+
+        return null;
     }
 }
