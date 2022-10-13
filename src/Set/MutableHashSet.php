@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AccumulatePHP\Set;
 
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Map\NotHashableException;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use Traversable;
@@ -57,9 +56,6 @@ final class MutableHashSet implements MutableSet, IteratorAggregate
         return $this->hashMap->count();
     }
 
-    /**
-     * @throws NotHashableException
-     */
     public function add(mixed $element): bool
     {
         $putResult = $this->hashMap->put($element, true);

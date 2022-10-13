@@ -179,13 +179,14 @@ final class HashMap implements MutableMap, IteratorAggregate
         return $previousValue->getValue();
     }
 
-    /**
-     * @throws NotHashableException
-     */
     private function evaluateHash(mixed $key): string|int
     {
+        if (!is_string($key) && !is_int($key) && !is_object($key)) {
+            throw new UnsupportedKeyException('HashMap only supports object|string|int as keys.');
+        }
+
         return MixedHash::for($key)
-            ->computeHash();
+            ->getHash();
     }
 
     private function keyEquals(mixed $one, mixed $two): bool

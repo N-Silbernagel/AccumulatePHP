@@ -7,7 +7,7 @@ namespace Tests\Map;
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
 use AccumulatePHP\Map\MutableMap;
-use AccumulatePHP\Map\NotHashableException;
+use AccumulatePHP\Map\UnsupportedKeyException;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
@@ -180,7 +180,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
         /** @var HashMap<resource, int> $hashMap */
         $hashMap = HashMap::new();
 
-        $this->expectException(NotHashableException::class);
+        $this->expectException(UnsupportedKeyException::class);
 
         $hashMap->put($resource, 1);
     }
@@ -313,5 +313,41 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
         $hashMap = HashMap::fromArray($inputArray);
 
         self::assertEquals($inputArray, $hashMap->toArray());
+    }
+
+    /** @test */
+    public function it_should_not_support_float_keys(): void
+    {
+        $this->expectException(UnsupportedKeyException::class);
+
+        $hashMap = HashMap::new();
+        $hashMap->put(1.18, true);
+    }
+
+    /** @test */
+    public function it_should_not_support_bool_keys(): void
+    {
+        $this->expectException(UnsupportedKeyException::class);
+
+        $hashMap = HashMap::new();
+        $hashMap->put(false, true);
+    }
+
+    /** @test */
+    public function it_should_not_support_null_keys(): void
+    {
+        $this->expectException(UnsupportedKeyException::class);
+
+        $hashMap = HashMap::new();
+        $hashMap->put(null, true);
+    }
+
+    /** @test */
+    public function it_should_not_support_array_keys(): void
+    {
+        $this->expectException(UnsupportedKeyException::class);
+
+        $hashMap = HashMap::new();
+        $hashMap->put([], true);
     }
 }

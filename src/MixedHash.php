@@ -4,46 +4,34 @@ declare(strict_types=1);
 
 namespace AccumulatePHP;
 
-use AccumulatePHP\Map\NotHashableException;
-use JetBrains\PhpStorm\Pure;
-
-/**
- * @template T
- */
 final class MixedHash
 {
-    /** @param T $element */
     private function __construct(
-        /** @var T $element */
-        private mixed $element
+        private string|int $hash
     )
     {
     }
 
-    /**
-     * @param T $element
-     * @return self<T>
-     */
-    #[Pure]
-    public static function for(mixed $element): self
+    public static function for(object|string|int $element): self
     {
-        return new self($element);
+        return new self(self::computeHash($element));
     }
 
-    public function computeHash(): string|int
+    public static function computeHash(object|string|int $element): string|int
     {
-        if ($this->element instanceof Hashable) {
-            return $this->element->hashcode();
+        if ($element instanceof Hashable) {
+            return $element->hashcode();
         }
 
-        if (is_object($this->element)) {
-            return spl_object_hash($this->element);
+        if (is_object($element)) {
+            return spl_object_hash($element);
         }
 
-        if (is_int($this->element) || is_string($this->element)) {
-            return $this->element;
-        }
+        return $element;
+    }
 
-        throw new NotHashableException();
+    public function getHash(): int|string
+    {
+        return $this->hash;
     }
 }
