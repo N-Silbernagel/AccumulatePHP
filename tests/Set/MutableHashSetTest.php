@@ -74,4 +74,21 @@ final class MutableHashSetTest extends TestCase implements AccumulationTestContr
         self::assertTrue($hashSet->contains('me'));
         self::assertTrue($hashSet->contains('myself'));
     }
+
+    /** @test */
+    public function it_should_have_varargs_generator_method(): void
+    {
+        $set = MutableHashSet::of(1, 1, 3);
+
+        self::assertTrue($set->contains(1));
+        self::assertTrue($set->contains(3));
+    }
+
+    /** @test */
+    public function it_should_be_convertable_to_array(): void
+    {
+        $hashSet = MutableHashSet::of('x', 'y', 'z');
+
+        self::assertEquals(['x', 'y', 'z'], $hashSet->toArray());
+    }
 }

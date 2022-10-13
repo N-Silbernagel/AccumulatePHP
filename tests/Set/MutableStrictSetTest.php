@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Set;
 
-use AccumulatePHP\Set\MutableHashSet;
 use AccumulatePHP\Set\MutableStrictSet;
 use AccumulatePHP\Set\MutableSet;
 use AccumulatePHP\Set\Set;
@@ -154,5 +153,22 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
 
         self::assertTrue($hashSet->contains('me'));
         self::assertTrue($hashSet->contains('myself'));
+    }
+
+    /** @test */
+    public function it_should_have_varargs_generator_method(): void
+    {
+        $set = MutableStrictSet::of(1, 1, 3);
+
+        self::assertTrue($set->contains(1));
+        self::assertTrue($set->contains(3));
+    }
+
+    /** @test */
+    public function it_should_be_convertable_to_array(): void
+    {
+        $hashSet = MutableStrictSet::of('x', 'y', 'z');
+
+        self::assertEquals(['x', 'y', 'z'], $hashSet->toArray());
     }
 }

@@ -117,7 +117,7 @@ final class MutableArraySeries implements MutableSeries, IteratorAggregate
     }
 
     /**
-     * @return array<T>
+     * @return array<int, T>
      */
     public function toArray(): array
     {

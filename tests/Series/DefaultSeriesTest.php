@@ -83,7 +83,7 @@ final class DefaultSeriesTest extends TestCase implements AccumulationTestContra
     }
 
     /** @test */
-    public function it_can_be_converted_to_array(): void
+    public function it_should_be_convertable_to_array(): void
     {
         $inputArray = ['xy', 'z'];
 
@@ -93,7 +93,7 @@ final class DefaultSeriesTest extends TestCase implements AccumulationTestContra
     }
 
     /** @test */
-    public function it_has_varargs_generator_method(): void
+    public function it_should_have_varargs_generator_method(): void
     {
         $mutableSeries = DefaultSeries::of('x', 'y', 'z');
 

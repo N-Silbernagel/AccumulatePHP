@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AccumulatePHP;
 
 use AccumulatePHP\Map\NotHashableException;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @template T
@@ -23,6 +24,7 @@ final class MixedHash
      * @param T $element
      * @return self<T>
      */
+    #[Pure]
     public static function for(mixed $element): self
     {
         return new self($element);

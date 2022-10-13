@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
+use JetBrains\PhpStorm\Pure;
+
 /**
  * @template TKey
  * @template TValue
@@ -26,6 +28,7 @@ final class Entry
      * @param TValue $value
      * @return self<TKey, TValue>
      */
+    #[Pure]
     public static function of(mixed $key, mixed $value): self
     {
         return new self($key, $value);

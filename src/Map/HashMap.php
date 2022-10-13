@@ -9,6 +9,7 @@ use AccumulatePHP\MixedHash;
 use AccumulatePHP\Series\MutableArraySeries;
 use AccumulatePHP\Series\Series;
 use IteratorAggregate;
+use JetBrains\PhpStorm\Pure;
 use SplDoublyLinkedList;
 use Traversable;
 
@@ -33,8 +34,33 @@ final class HashMap implements MutableMap, IteratorAggregate
     }
 
     /**
+     * @param Entry<TKey, TValue> ...$items
      * @return self<TKey, TValue>
      */
+    public static function of(...$items): self
+    {
+        return self::listArrayToHashMap($items);
+    }
+
+    /**
+     * @param array<int|string, Entry<TKey, TValue>> $array
+     * @return self<TKey, TValue>
+     */
+    private static function listArrayToHashMap(array $array): self
+    {
+        $new = self::new();
+
+        foreach ($array as $entry) {
+            $new->put($entry->getKey(), $entry->getValue());
+        }
+
+        return $new;
+    }
+
+    /**
+     * @return self<TKey, TValue>
+     */
+    #[Pure]
     public static function new(): self
     {
         return new self();
@@ -55,6 +81,7 @@ final class HashMap implements MutableMap, IteratorAggregate
         return null;
     }
 
+    #[Pure]
     public function isEmpty(): bool
     {
         return $this->count() === 0;
@@ -185,13 +212,7 @@ final class HashMap implements MutableMap, IteratorAggregate
      */
     public static function fromArray(array $array): self
     {
-        $new = self::new();
-
-        foreach ($array as $entry) {
-            $new->put($entry->getKey(), $entry->getValue());
-        }
-
-        return $new;
+        return self::listArrayToHashMap($array);
     }
 
     /**
@@ -210,6 +231,7 @@ final class HashMap implements MutableMap, IteratorAggregate
         return $new;
     }
 
+    #[Pure]
     public function toAssoc(): array
     {
         /** @var array<int|string, TValue> $array */
@@ -221,5 +243,10 @@ final class HashMap implements MutableMap, IteratorAggregate
             $array[$entry->getKey()] = $entry->getValue();
         }
         return $array;
+    }
+
+    public function toArray(): array
+    {
+        return iterator_to_array($this);
     }
 }

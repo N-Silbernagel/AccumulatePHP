@@ -24,5 +24,16 @@ interface Accumulation extends Countable, Traversable {
      */
     public static function fromArray(array $array): Accumulation;
 
+    /**
+     * @param TValue ...$items
+     * @return static<TValue>
+     */
+    public static function of(...$items): Accumulation;
+
     public function isEmpty(): bool;
+
+    /**
+     * @return array<TKey, TValue>
+     */
+    public function toArray(): array;
 }

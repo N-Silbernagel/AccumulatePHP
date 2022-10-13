@@ -25,11 +25,6 @@ interface Series extends Accumulation
     public function get(int $index): mixed;
 
     /**
-     * @return array<T>
-     */
-    public function toArray(): array;
-
-    /**
      * @param callable(T): bool $filterConsumer
      * @return Series<T>
      */

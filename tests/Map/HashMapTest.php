@@ -6,10 +6,8 @@ namespace Tests\Map;
 
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Map\MutableArrayMap;
 use AccumulatePHP\Map\MutableMap;
 use AccumulatePHP\Map\NotHashableException;
-use AccumulatePHP\MixedHash;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
@@ -295,5 +293,25 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
         self::assertEquals([
             'hello' => 'world',
         ], $map->toAssoc());
+    }
+
+    /** @test */
+    public function it_should_have_varargs_generator_method(): void
+    {
+        $map = HashMap::of(Entry::of(1, 1), Entry::of(2, 2));
+
+        self::assertEquals([
+            1 => 1,
+            2 => 2
+        ], $map->toAssoc());
+    }
+
+    /** @test */
+    public function it_should_be_convertable_to_array(): void
+    {
+        $inputArray = [Entry::of(4, 4), Entry::of('x', 'y')];
+        $hashMap = HashMap::fromArray($inputArray);
+
+        self::assertEquals($inputArray, $hashMap->toArray());
     }
 }

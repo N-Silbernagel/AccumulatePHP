@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Set;
 
-use AccumulatePHP\Accumulation;
 use AccumulatePHP\Map\HashMap;
 use AccumulatePHP\Map\NotHashableException;
-use AccumulatePHP\MixedHash;
 use IteratorAggregate;
+use JetBrains\PhpStorm\Pure;
 use Traversable;
 
 /**
@@ -29,6 +28,7 @@ final class MutableHashSet implements MutableSet, IteratorAggregate
     /**
      * @return self<T>
      */
+    #[Pure]
     public static function new(): self
     {
         /** @var HashMap<T, true> $hashMap */
@@ -36,11 +36,22 @@ final class MutableHashSet implements MutableSet, IteratorAggregate
         return new self($hashMap);
     }
 
+    /**
+     * @param T ...$items
+     * @return self<T>
+     */
+    public static function of(...$items): self
+    {
+        return self::fromArray($items);
+    }
+
+    #[Pure]
     public function isEmpty(): bool
     {
         return $this->hashMap->isEmpty();
     }
 
+    #[Pure]
     public function count(): int
     {
         return $this->hashMap->count();
@@ -86,5 +97,10 @@ final class MutableHashSet implements MutableSet, IteratorAggregate
         }
 
         return $new;
+    }
+
+    public function toArray(): array
+    {
+        return iterator_to_array($this);
     }
 }

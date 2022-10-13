@@ -7,6 +7,7 @@ namespace AccumulatePHP\Set;
 use AccumulatePHP\Series\MutableArraySeries;
 use AccumulatePHP\Series\MutableSeries;
 use IteratorAggregate;
+use JetBrains\PhpStorm\Pure;
 use Traversable;
 
 /**
@@ -20,7 +21,8 @@ final class MutableStrictSet implements MutableSet, IteratorAggregate
      * @readonly  */
     private MutableSeries $repository;
 
-    /** @param MutableSeries<T> $repository */
+    /** @param MutableSeries<T>|null $repository */
+    #[Pure]
     private function __construct(?MutableSeries $repository = null)
     {
         $this->repository = $repository ?? MutableArraySeries::new();
@@ -29,6 +31,7 @@ final class MutableStrictSet implements MutableSet, IteratorAggregate
     /**
      * @return self<T>
      */
+    #[Pure]
     public static function new(): self
     {
         return new self();
@@ -52,6 +55,16 @@ final class MutableStrictSet implements MutableSet, IteratorAggregate
         return new self($encounteredValues);
     }
 
+    /**
+     * @param T ...$items
+     * @return self<T>
+     */
+    public static function of(...$items): self
+    {
+        return self::fromArray($items);
+    }
+
+    #[Pure]
     public function isEmpty(): bool
     {
         return $this->count() === 0;
@@ -109,5 +122,10 @@ final class MutableStrictSet implements MutableSet, IteratorAggregate
 
         $this->repository->remove($searchedIndex);
         return true;
+    }
+
+    public function toArray(): array
+    {
+        return $this->repository->toArray();
     }
 }
