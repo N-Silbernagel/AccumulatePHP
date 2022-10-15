@@ -17,7 +17,7 @@ final class MixedHash
         return new self(self::computeHash($element));
     }
 
-    public static function computeHash(object|string|int $element): string|int
+    private static function computeHash(object|string|int $element): string|int
     {
         if ($element instanceof Hashable) {
             return $element->hashcode();
