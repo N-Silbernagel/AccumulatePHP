@@ -319,6 +319,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     public function it_should_support_float_keys(): void
     {
         $hashMap = HashMap::new();
+        $hashMap->put(1, false);
         $hashMap->put(1.18, true);
 
         self::assertSame(true, $hashMap->get(1.18));
