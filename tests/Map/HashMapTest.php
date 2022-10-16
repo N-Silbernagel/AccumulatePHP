@@ -316,30 +316,30 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     }
 
     /** @test */
-    public function it_should_not_support_float_keys(): void
+    public function it_should_support_float_keys(): void
     {
-        $this->expectException(UnsupportedKeyException::class);
-
         $hashMap = HashMap::new();
         $hashMap->put(1.18, true);
+
+        self::assertSame(true, $hashMap->get(1.18));
     }
 
     /** @test */
-    public function it_should_not_support_bool_keys(): void
+    public function it_should_support_bool_keys(): void
     {
-        $this->expectException(UnsupportedKeyException::class);
-
         $hashMap = HashMap::new();
         $hashMap->put(false, true);
+
+        self::assertSame(true, $hashMap->get(false));
     }
 
     /** @test */
-    public function it_should_not_support_null_keys(): void
+    public function it_should_support_null_keys(): void
     {
-        $this->expectException(UnsupportedKeyException::class);
-
         $hashMap = HashMap::new();
         $hashMap->put(null, true);
+
+        self::assertSame(true, $hashMap->get(null));
     }
 
     /** @test */
@@ -349,5 +349,15 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
 
         $hashMap = HashMap::new();
         $hashMap->put([], true);
+    }
+
+    /** @test */
+    public function it_should_return_null_when_trying_to_remove_non_existent_key(): void
+    {
+        $hashMap = HashMap::new();
+
+        $removeResult = $hashMap->remove('test');
+
+        self::assertNull($removeResult);
     }
 }

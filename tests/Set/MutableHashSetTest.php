@@ -91,4 +91,40 @@ final class MutableHashSetTest extends TestCase implements AccumulationTestContr
 
         self::assertEquals(['x', 'y', 'z'], $hashSet->toArray());
     }
+
+    /** @test */
+    public function it_should_keep_count_of_its_contained_elements(): void
+    {
+        $set = MutableHashSet::of(1, 2);
+
+        $set->add(3);
+
+        self::assertSame(3, $set->count());
+    }
+
+    /** @test */
+    public function it_should_return_false_when_removing_values_that_didnt_exist(): void
+    {
+        /** @var MutableSet<int|string> $set */
+        $set = MutableHashSet::new();
+
+        $set->add(1);
+        $removeString = $set->remove('1');
+
+        self::assertFalse($removeString);
+        self::assertFalse($set->isEmpty());
+    }
+
+    /** @test */
+    public function it_should_return_true_when_removing_values_that_existed(): void
+    {
+        /** @var MutableSet<int> $set */
+        $set = MutableHashSet::new();
+
+        $set->add(1);
+        $remove = $set->remove(1);
+
+        self::assertTrue($remove);
+        self::assertTrue($set->isEmpty());
+    }
 }

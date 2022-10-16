@@ -171,4 +171,14 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
 
         self::assertEquals(['x', 'y', 'z'], $hashSet->toArray());
     }
+
+    /** @test */
+    public function it_should_keep_count_of_its_contained_elements(): void
+    {
+        $set = MutableStrictSet::of(1, 2);
+
+        $set->add(3);
+
+        self::assertSame(3, $set->count());
+    }
 }

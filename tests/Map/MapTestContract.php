@@ -11,4 +11,6 @@ interface MapTestContract
     public function it_should_be_convertable_to_assoc_array(): void;
 
     public function it_should_ignore_non_scalar_keys_when_converting_to_assoc_array(): void;
+
+    public function it_should_return_null_when_trying_to_remove_non_existent_key(): void;
 }
