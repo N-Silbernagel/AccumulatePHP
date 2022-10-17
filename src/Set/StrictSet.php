@@ -108,19 +108,13 @@ final class StrictSet implements Set, IteratorAggregate
      */
     public function remove(mixed $element): bool
     {
-        // TODO: refactor to using repository->find
-        $searchedIndex = -1;
-        foreach ($this->repository as $index => $item) {
-            if ($element === $item) {
-                $searchedIndex = $index;
-            }
-        }
+        $index = $this->repository->findIndex(fn(mixed $item) => $item === $element);
 
-        if ($searchedIndex === -1) {
+        if (is_null($index)) {
             return false;
         }
 
-        $this->repository->remove($searchedIndex);
+        $this->repository->remove($index);
         return true;
     }
 
