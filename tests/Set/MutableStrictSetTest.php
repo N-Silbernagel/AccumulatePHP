@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Set;
 
-use AccumulatePHP\Set\MutableStrictSet;
-use AccumulatePHP\Set\MutableSet;
+use AccumulatePHP\Set\StrictSet;
 use AccumulatePHP\Set\Set;
+use AccumulatePHP\Set\ReadonlySet;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
@@ -15,29 +15,29 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
     {
-        $set = MutableStrictSet::new();
+        $set = StrictSet::new();
 
-        self::assertInstanceOf(MutableStrictSet::class, $set);
-        self::assertInstanceOf(Set::class, $set);
+        self::assertInstanceOf(StrictSet::class, $set);
+        self::assertInstanceOf(ReadonlySet::class, $set);
         self::assertTrue($set->isEmpty());
     }
 
     /** @test */
     public function it_should_allow_instantiating_from_array(): void
     {
-        /** @var Set<int> $set */
-        $set = MutableStrictSet::fromArray([]);
+        /** @var ReadonlySet<int> $set */
+        $set = StrictSet::fromArray([]);
 
-        self::assertInstanceOf(MutableStrictSet::class, $set);
-        self::assertInstanceOf(Set::class, $set);
+        self::assertInstanceOf(StrictSet::class, $set);
+        self::assertInstanceOf(ReadonlySet::class, $set);
         self::assertTrue($set->isEmpty());
     }
 
     /** @test */
     public function it_should_not_be_empty_when_instantiating_from_array_with_elements(): void
     {
-        /** @var Set<int> $set */
-        $set = MutableStrictSet::fromArray([4, 9]);
+        /** @var ReadonlySet<int> $set */
+        $set = StrictSet::fromArray([4, 9]);
 
         self::assertFalse($set->isEmpty());
     }
@@ -48,7 +48,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
         /** @var array<int> $data */
         $data = [3, 4];
 
-        $set = MutableStrictSet::fromArray($data);
+        $set = StrictSet::fromArray($data);
 
         self::assertTrue($set->contains(3));
         self::assertTrue($set->contains(4));
@@ -59,7 +59,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     {
         /** @var array<string> $data */
         $data = ['hello', 'world'];
-        $set = MutableStrictSet::fromArray($data);
+        $set = StrictSet::fromArray($data);
 
         $eachResult = [];
         foreach ($set as $index => $item) {
@@ -75,8 +75,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_return_false_when_adding_values_that_are_equal_by_type_and_value(): void
     {
-        /** @var MutableSet<int|string> $set */
-        $set = MutableStrictSet::new();
+        /** @var Set<int|string> $set */
+        $set = StrictSet::new();
 
         $set->add(1);
         $addInt = $set->add(1);
@@ -88,8 +88,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_return_true_when_adding_values_that_are_equal_by_value_but_not_type(): void
     {
-        /** @var MutableSet<int|string> $set */
-        $set = MutableStrictSet::new();
+        /** @var Set<int|string> $set */
+        $set = StrictSet::new();
 
         $set->add(1);
         $addString = $set->add('1');
@@ -101,8 +101,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_return_false_when_removing_values_that_didnt_exist(): void
     {
-        /** @var MutableSet<int|string> $set */
-        $set = MutableStrictSet::new();
+        /** @var Set<int|string> $set */
+        $set = StrictSet::new();
 
         $set->add(1);
         $removeString = $set->remove('1');
@@ -114,8 +114,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_return_true_when_removing_values_that_existed(): void
     {
-        /** @var MutableSet<int> $set */
-        $set = MutableStrictSet::new();
+        /** @var Set<int> $set */
+        $set = StrictSet::new();
 
         $set->add(1);
         $remove = $set->remove(1);
@@ -127,8 +127,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function contains_should_return_true_if_set_contains_element(): void
     {
-        /** @var MutableSet<int> $mutableHashSet */
-        $mutableHashSet = MutableStrictSet::new();
+        /** @var Set<int> $mutableHashSet */
+        $mutableHashSet = StrictSet::new();
 
         $mutableHashSet->add(77);
 
@@ -138,8 +138,8 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function contains_should_return_false_if_set_does_not_contain_element(): void
     {
-        /** @var MutableSet<int> $mutableHashSet */
-        $mutableHashSet = MutableStrictSet::new();
+        /** @var Set<int> $mutableHashSet */
+        $mutableHashSet = StrictSet::new();
 
         $mutableHashSet->add(66);
 
@@ -149,7 +149,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_be_instantiatable_from_array(): void
     {
-        $hashSet = MutableStrictSet::fromArray(['me', 'myself']);
+        $hashSet = StrictSet::fromArray(['me', 'myself']);
 
         self::assertTrue($hashSet->contains('me'));
         self::assertTrue($hashSet->contains('myself'));
@@ -158,7 +158,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_have_varargs_generator_method(): void
     {
-        $set = MutableStrictSet::of(1, 1, 3);
+        $set = StrictSet::of(1, 1, 3);
 
         self::assertTrue($set->contains(1));
         self::assertTrue($set->contains(3));
@@ -167,7 +167,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_be_convertable_to_array(): void
     {
-        $hashSet = MutableStrictSet::of('x', 'y', 'z');
+        $hashSet = StrictSet::of('x', 'y', 'z');
 
         self::assertEquals(['x', 'y', 'z'], $hashSet->toArray());
     }
@@ -175,7 +175,7 @@ final class MutableStrictSetTest extends TestCase implements AccumulationTestCon
     /** @test */
     public function it_should_keep_count_of_its_contained_elements(): void
     {
-        $set = MutableStrictSet::of(1, 2);
+        $set = StrictSet::of(1, 2);
 
         $set->add(3);
 

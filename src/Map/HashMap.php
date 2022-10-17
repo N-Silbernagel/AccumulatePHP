@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Hashable;
-use AccumulatePHP\Series\MutableArraySeries;
-use AccumulatePHP\Series\Series;
+use AccumulatePHP\Series\ArraySeries;
+use AccumulatePHP\Series\ReadonlySeries;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use SplDoublyLinkedList;
@@ -15,10 +15,10 @@ use Traversable;
 /**
  * @template TKey
  * @template TValue
- * @implements MutableMap<TKey, TValue>
+ * @implements Map<TKey, TValue>
  * @implements IteratorAggregate<int, Entry<TKey, TValue>>
  */
-final class HashMap implements MutableMap, IteratorAggregate
+final class HashMap implements Map, IteratorAggregate
 {
     private int $size;
     /**
@@ -92,12 +92,12 @@ final class HashMap implements MutableMap, IteratorAggregate
     }
 
     /**
-     * @return Series<TValue>
+     * @return ReadonlySeries<TValue>
      */
-    public function values(): Series
+    public function values(): ReadonlySeries
     {
-        /** @var MutableArraySeries<TValue> $series */
-        $series = MutableArraySeries::new();
+        /** @var ArraySeries<TValue> $series */
+        $series = ArraySeries::new();
         foreach ($this->repository as $bucket) {
             foreach ($bucket as $entry) {
                 $series->add($entry->getValue());

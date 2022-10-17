@@ -6,7 +6,7 @@ namespace Tests\Map;
 
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Map\MutableMap;
+use AccumulatePHP\Map\Map;
 use AccumulatePHP\Map\UnsupportedKeyException;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
@@ -216,7 +216,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_be_traversable(): void
     {
-        /** @var MutableMap<UnequalHashable, String> $map */
+        /** @var Map<UnequalHashable, String> $map */
         $map = HashMap::new();
 
         $one = new UnequalHashable(1, 1);
@@ -270,7 +270,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_be_convertable_to_assoc_array(): void
     {
-        /** @var MutableMap<string|EqualHashable, string> $map */
+        /** @var Map<string|EqualHashable, string> $map */
         $map = HashMap::new();
 
         $map->put('hello', 'world');
@@ -283,7 +283,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_ignore_non_scalar_keys_when_converting_to_assoc_array(): void
     {
-        /** @var MutableMap<string|EqualHashable, string> $map */
+        /** @var Map<string|EqualHashable, string> $map */
         $map = HashMap::new();
 
         $hashable = new EqualHashable('test');
