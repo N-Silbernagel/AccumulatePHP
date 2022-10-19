@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
-use AccumulatePHP\Map\Entry;
+use AccumulatePHP\Map\HashmapEntry;
 use AccumulatePHP\Map\HashMap;
 use AccumulatePHP\Map\Map;
 use AccumulatePHP\Map\UnsupportedKeyException;
@@ -232,9 +232,9 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
             $actual[] = $item;
         }
 
-        $entryOne = Entry::of($one, 'b');
-        $entryTwo = Entry::of($two, 'a');
-        $entryThree = Entry::of($three, 'c');
+        $entryOne = HashmapEntry::of($one, 'b');
+        $entryTwo = HashmapEntry::of($two, 'a');
+        $entryThree = HashmapEntry::of($three, 'c');
 
         $expected = [$entryOne, $entryTwo, $entryThree];
         self::assertEqualsCanonicalizing($expected, $actual);
@@ -245,9 +245,9 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     {
         $equalHashable = new EqualHashable('g');
         $hashMap = HashMap::fromArray([
-            Entry::of(1, 1),
-            Entry::of(2, 'test'),
-            Entry::of($equalHashable, $equalHashable)
+            HashmapEntry::of(1, 1),
+            HashmapEntry::of(2, 'test'),
+            HashmapEntry::of($equalHashable, $equalHashable)
         ]);
 
         self::assertSame(1, $hashMap->get(1));
@@ -298,7 +298,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_have_varargs_generator_method(): void
     {
-        $map = HashMap::of(Entry::of(1, 1), Entry::of(2, 2));
+        $map = HashMap::of(HashmapEntry::of(1, 1), HashmapEntry::of(2, 2));
 
         self::assertEquals([
             1 => 1,
@@ -309,7 +309,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_be_convertable_to_array(): void
     {
-        $inputArray = [Entry::of(4, 4), Entry::of('x', 'y')];
+        $inputArray = [HashmapEntry::of(4, 4), HashmapEntry::of('x', 'y')];
         $hashMap = HashMap::fromArray($inputArray);
 
         self::assertEquals($inputArray, $hashMap->toArray());

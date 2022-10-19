@@ -129,7 +129,7 @@ final class HashMap implements Map, IteratorAggregate
         }
 
         /** @var Entry<TKey, TValue> $entry */
-        $entry = Entry::of($key, $value);
+        $entry = HashmapEntry::of($key, $value);
 
         if ($bucketIndex !== -1) {
             /** @var Entry<TKey, TValue> $previousValue */
