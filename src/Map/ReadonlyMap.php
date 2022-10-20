@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Accumulation;
+use AccumulatePHP\Series\ReadonlySeries;
 
 /**
  * @template TKey
@@ -25,9 +26,9 @@ interface ReadonlyMap extends Accumulation
     public function count(): int;
 
     /**
-     * @return Accumulation<int, TValue>
+     * @return ReadonlySeries<TValue>
      */
-    public function values(): Accumulation;
+    public function values(): ReadonlySeries;
 
     /**
      * @param array<int|string, TValue> $assocArray
