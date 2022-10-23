@@ -127,7 +127,7 @@ final class TreeMap implements Map, IteratorAggregate
         $current = $this->root;
         $fromLeft = false;
 
-        do {
+        while ($current !== null) {
             $comparisonResult = $this->compare($current->getKey(), $key);
 
             if ($comparisonResult === 0) {
@@ -141,7 +141,7 @@ final class TreeMap implements Map, IteratorAggregate
                 $current = $current->getRight();
                 $fromLeft = false;
             }
-        } while ($current != null);
+        }
 
         return null;
     }
