@@ -13,17 +13,23 @@ use JetBrains\PhpStorm\Pure;
 final class TreeMapEntry
 {
     /**
+     * @var TreeMapEntry<TKey, TValue>|null $left
+     */
+    private ?self $left = null;
+
+    /**
+     * @var TreeMapEntry<TKey, TValue>|null $right
+     */
+    private ?self $right = null;
+
+    /**
      * @param Entry<TKey, TValue> $entry
      * @param TreeMapEntry<TKey, TValue>|null $parent
-     * @param TreeMapEntry<TKey, TValue>|null $left
-     * @param TreeMapEntry<TKey, TValue>|null $right
      */
     private function __construct(
         /** @var Entry<TKey, TValue> $entry */
         private Entry $entry,
         private ?self $parent = null,
-        private ?self          $left = null,
-        private ?self          $right = null,
     )
     {
     }
@@ -31,8 +37,6 @@ final class TreeMapEntry
     /**
      * @param TKey $key
      * @param TValue $value
-     * @param TreeMapEntry<TKey, TValue>|null $left
-     * @param TreeMapEntry<TKey, TValue>|null $right
      * @param TreeMapEntry<TKey, TValue>|null $parent
      * @return self<TKey, TValue>
      */
@@ -40,8 +44,6 @@ final class TreeMapEntry
     public static function of(
         mixed $key,
         mixed $value,
-        ?self $left = null,
-        ?self $right = null,
         ?self $parent = null
     ): self
     {
@@ -49,8 +51,6 @@ final class TreeMapEntry
         return new self(
             Entry::of($key, $value),
             $parent,
-            $left,
-            $right
         );
     }
 
@@ -110,28 +110,26 @@ final class TreeMapEntry
     }
 
     /**
-     * @param TreeMapEntry<TKey, TValue> $entry
+     * @param TreeMapEntry<TKey, TValue>|null $entry
      */
-    public function setLeft(TreeMapEntry $entry): void
+    public function setLeft(?TreeMapEntry $entry): void
     {
         $this->left = $entry;
     }
 
     /**
-     * @param TreeMapEntry<TKey, TValue> $entry
+     * @param TreeMapEntry<TKey, TValue>|null $entry
      */
-    public function setRight(TreeMapEntry $entry): void
+    public function setRight(?TreeMapEntry $entry): void
     {
         $this->right = $entry;
     }
 
-    public function unsetLeft(): void
+    /**
+     * @param TreeMapEntry<TKey, TValue>|null $newParent
+     */
+    public function setParent(?TreeMapEntry $newParent): void
     {
-        $this->left = null;
-    }
-
-    public function unsetRight(): void
-    {
-        $this->right = null;
+        $this->parent = $newParent;
     }
 }

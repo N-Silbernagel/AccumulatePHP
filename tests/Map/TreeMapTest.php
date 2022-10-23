@@ -216,10 +216,43 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
     /** @test */
     public function it_should_allow_removing_the_root_node(): void
     {
-        $treeMap = TreeMap::of(Entry::of(1, false), Entry::of(2, true));
+        $treeMap = TreeMap::of(
+            Entry::of(1, true),
+            Entry::of(2, true),
+            Entry::of(0, true),
+        );
 
         $treeMap->remove(1);
 
-        self::assertSame(1, $treeMap->count());
+        self::assertSame(2, $treeMap->count());
+        self::assertNull($treeMap->get(1));
+        self::assertTrue($treeMap->get(2));
+        self::assertTrue($treeMap->get(0));
+    }
+
+    /** @test */
+    public function subtree_elements_should_be_kept_when_removing_elements(): void
+    {
+        $treeMap = TreeMap::of(
+            Entry::of(3, true),
+            Entry::of(1, true),
+            Entry::of(2, true),
+            Entry::of(0, true),
+            Entry::of(5, true),
+            Entry::of(4, true),
+            Entry::of(6, true),
+        );
+
+        $treeMap->remove(1);
+
+        self::assertNull($treeMap->get(1));
+        self::assertTrue($treeMap->get(2));
+        self::assertTrue($treeMap->get(0));
+
+        $treeMap->remove(5);
+
+        self::assertNull($treeMap->get(5));
+        self::assertTrue($treeMap->get(4));
+        self::assertTrue($treeMap->get(6));
     }
 }

@@ -18,6 +18,9 @@ use Traversable;
  */
 final class TreeMap implements Map, IteratorAggregate
 {
+    public const RED = false;
+    public const BLACK = true;
+
     /**
      * @var TreeMapEntry<TKey, TValue>|null
      */
@@ -128,22 +131,7 @@ final class TreeMap implements Map, IteratorAggregate
             $comparisonResult = $this->compare($current->getKey(), $key);
 
             if ($comparisonResult === 0) {
-                if (is_null($current->getParent())) {
-                    $newRootNode = $current->getLeft() ?? $current->getRight();
-                    $this->root = $newRootNode;
-
-                    $this->size--;
-                    return $current->getValue();
-                }
-
-                if ($fromLeft) {
-                    $current->getParent()->unsetLeft();
-                } else {
-                    $current->getParent()->unsetRight();
-                }
-
-                $this->size--;
-                return $current->getValue();
+                return $this->removeNode($current, $fromLeft);
             }
 
             if ($comparisonResult === -1) {
@@ -317,5 +305,42 @@ final class TreeMap implements Map, IteratorAggregate
             throw new IncomparableKeysException($target, $comparison);
         }
         return $comparison <=> $target;
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $current
+     * @param bool $fromLeft
+     * @return TValue|null
+     */
+    private function removeNode(TreeMapEntry $current, bool $fromLeft): mixed
+    {
+        $replacingNode = null;
+        if ($current->getRight() !== null) {
+            // make right node the new parent, attach old left node on the left of the smallest element
+            // of the right subtree
+            $replacingNode = $current->getRight();
+            if ($current->getLeft() !== null) {
+                $leftMostNodeOfRightSubtree = $this->getLeftMostNode($replacingNode);
+                $leftMostNodeOfRightSubtree->setLeft($current->getLeft());
+                $current->getLeft()->setParent($leftMostNodeOfRightSubtree);
+            }
+            $replacingNode->setParent($current->getParent());
+        } elseif ($current->getLeft() !== null) {
+            // make left node the new parent
+            $replacingNode = $current->getLeft();
+            $replacingNode->setParent($current->getParent());
+        }
+
+        if ($fromLeft && $current->getParent() !== null) {
+            $current->getParent()->setLeft($replacingNode);
+        } elseif (!$fromLeft && $current->getParent() !== null) {
+            $current->getParent()->setRight($replacingNode);
+        } else {
+            $this->root = $replacingNode;
+        }
+
+
+        $this->size--;
+        return $current->getValue();
     }
 }
