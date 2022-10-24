@@ -21,10 +21,6 @@ interface ReadonlyMap extends Accumulation
      */
     public function get(mixed $key): mixed;
 
-    public function isEmpty(): bool;
-
-    public function count(): int;
-
     /**
      * @return ReadonlySeries<TValue>
      */

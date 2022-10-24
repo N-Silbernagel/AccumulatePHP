@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Map;
 
 use AccumulatePHP\Map\Entry;
-use AccumulatePHP\Map\IncomparableKeysException;
+use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
 use AccumulatePHP\Map\Map;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,7 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
         $key = new EqualHashable('hi');
         $treeMap->put($key, 1);
 
-        $this->expectException(IncomparableKeysException::class);
+        $this->expectException(IncomparableKeys::class);
 
         $treeMap->put('hello there', 2);
     }

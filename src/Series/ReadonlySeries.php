@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Series;
 
-use AccumulatePHP\Accumulation;
+use AccumulatePHP\SequencedAccumulation;
 
 /**
  * @template T
- * @extends Accumulation<int,T>
+ * @extends SequencedAccumulation<int,T>
  */
-interface ReadonlySeries extends Accumulation
+interface ReadonlySeries extends SequencedAccumulation
 {
     /**
      * @template CallableReturnType

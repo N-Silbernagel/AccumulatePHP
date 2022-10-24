@@ -13,10 +13,10 @@ use Traversable;
 /**
  * @template TKey
  * @template TValue
- * @implements Map<TKey, TValue>
+ * @implements SequencedMap<TKey, TValue>
  * @implements IteratorAggregate<int, Entry<TKey, TValue>>
  */
-final class TreeMap implements Map, IteratorAggregate
+final class TreeMap implements SequencedMap, IteratorAggregate
 {
     public const RED = false;
     public const BLACK = true;
@@ -307,7 +307,7 @@ final class TreeMap implements Map, IteratorAggregate
     private function compare(mixed $target, mixed $comparison): int
     {
         if (is_scalar($target) !== is_scalar($comparison)) {
-            throw new IncomparableKeysException($target, $comparison);
+            throw new IncomparableKeys($target, $comparison);
         }
         return $comparison <=> $target;
     }
