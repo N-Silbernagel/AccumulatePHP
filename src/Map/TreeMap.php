@@ -11,6 +11,8 @@ use JetBrains\PhpStorm\Pure;
 use Traversable;
 
 /**
+ * Red-Black Tree implementation of a Map
+ *
  * @template TKey
  * @template TValue
  * @implements SequencedMap<TKey, TValue>

@@ -49,6 +49,11 @@ class Accumulation {
 Accumulation <-- Traversable
 Accumulation <-- Countable
 
+class SequencedAccumulation {
+  <<interface>>
+}
+SequencedAccumulation <-- Accumulation
+
 class ReadonlySeries {
     <<interface>>
     map(mapConsumer)
@@ -59,7 +64,7 @@ class ReadonlySeries {
     find(findConsumer)
     findIndex(findConsumer)
 }
-ReadonlySeries <-- Accumulation
+ReadonlySeries <-- SequencedAccumulation
 class Series {
     <<interface>>
     add(item)
@@ -74,12 +79,22 @@ class ReadonlyMap {
     toAssoc()
 }
 ReadonlyMap <-- Accumulation
+class SequencedReadonlyMap {
+    <<interface>>
+}
+SequencedReadonlyMap <-- ReadonlyMap
+SequencedReadonlyMap <-- SequencedAccumulation
 class Map {
     <<interface>>
     put(key, value)
     remove(key)
 }
 Map <-- ReadonlyMap
+class SequencedMap {
+    <<interface>>
+}
+SequencedMap <-- SequencedReadonlyMap
+SequencedMap <-- Map
 
 class ReadonlySet {
     <<interface>>
