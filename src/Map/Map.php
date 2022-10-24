@@ -16,7 +16,7 @@ interface Map extends ReadonlyMap
      * @param TValue $value
      * @return TValue|null the previous item for the key or null if there was none
      *
-     * @throws UnsupportedKeyException If the underlying implementation does not support the type of the given key
+     * @throws UnsupportedKey If the underlying implementation does not support the type of the given key
      */
     public function put(mixed $key, mixed $value): mixed;
 
@@ -24,7 +24,7 @@ interface Map extends ReadonlyMap
      * @param TKey $key
      * @return TValue|null the item associated with the key or null if there was none
      *
-     * @throws UnsupportedKeyException If the underlying implementation does not support the type of the given key
+     * @throws UnsupportedKey If the underlying implementation does not support the type of the given key
      */
     public function remove(mixed $key): mixed;
 }

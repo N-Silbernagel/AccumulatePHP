@@ -17,7 +17,7 @@ interface ReadonlyMap extends Accumulation
     /**
      * @param TKey $key
      * @return TValue|null
-     * @throws UnsupportedKeyException If the underlying implementation does not support the type of the given key
+     * @throws UnsupportedKey If the underlying implementation does not support the type of the given key
      */
     public function get(mixed $key): mixed;
 

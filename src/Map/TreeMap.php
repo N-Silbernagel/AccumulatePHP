@@ -86,6 +86,9 @@ final class TreeMap implements Map, IteratorAggregate
             $newRoot = TreeMapEntry::of($key, $value);
             $this->root = $newRoot;
             $this->size++;
+
+            $this->rebalanceAfterInsertion($newRoot);
+
             return null;
         }
 
@@ -113,6 +116,8 @@ final class TreeMap implements Map, IteratorAggregate
         } else {
             $parent->setRight($entry);
         }
+
+        $this->rebalanceAfterInsertion($entry);
 
         $this->size++;
         return null;
@@ -314,33 +319,240 @@ final class TreeMap implements Map, IteratorAggregate
      */
     private function removeNode(TreeMapEntry $current, bool $fromLeft): mixed
     {
-        $replacingNode = null;
+        $replacement = null;
         if ($current->getRight() !== null) {
             // make right node the new parent, attach old left node on the left of the smallest element
             // of the right subtree
-            $replacingNode = $current->getRight();
+            $replacement = $current->getRight();
             if ($current->getLeft() !== null) {
-                $leftMostNodeOfRightSubtree = $this->getLeftMostNode($replacingNode);
+                $leftMostNodeOfRightSubtree = $this->getLeftMostNode($replacement);
                 $leftMostNodeOfRightSubtree->setLeft($current->getLeft());
                 $current->getLeft()->setParent($leftMostNodeOfRightSubtree);
             }
-            $replacingNode->setParent($current->getParent());
+            $replacement->setParent($current->getParent());
         } elseif ($current->getLeft() !== null) {
             // make left node the new parent
-            $replacingNode = $current->getLeft();
-            $replacingNode->setParent($current->getParent());
+            $replacement = $current->getLeft();
+            $replacement->setParent($current->getParent());
         }
 
         if ($fromLeft && $current->getParent() !== null) {
-            $current->getParent()->setLeft($replacingNode);
+            $current->getParent()->setLeft($replacement);
         } elseif (!$fromLeft && $current->getParent() !== null) {
-            $current->getParent()->setRight($replacingNode);
+            $current->getParent()->setRight($replacement);
         } else {
-            $this->root = $replacingNode;
+            $this->root = $replacement;
         }
 
 
+        if ($replacement !== null) {
+            $this->rebalanceAfterDeletion($replacement);
+        }
         $this->size--;
         return $current->getValue();
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $entry
+     */
+    private function rebalanceAfterInsertion(TreeMapEntry $entry): void
+    {
+        if ($this->root === null) {
+            throw new TreeMapDoesNotHaveRoot();
+        }
+
+        while ($entry !== null && $entry !== $this->root && $entry->getParent()?->getColor() === TreeMap::RED) {
+            $entry = $this->fixViolationAfterInsertion($entry);
+        }
+
+        $this->root->setColor(TreeMap::BLACK);
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue>|null $entry
+     */
+    private function rotateRight(?TreeMapEntry $entry): void
+    {
+        if ($entry === null) {
+            return;
+        }
+
+        $left = $entry->getLeft();
+        $entry->setLeft($left?->getRight());
+
+        $left?->getRight()?->setParent($entry);
+        $left?->setParent($entry->getParent());
+        if ($entry->getParent() === null) {
+            $this->root = $left;
+        } elseif ($entry->getParent()->getRight() === $entry) {
+            $entry->getParent()->setRight($left);
+        } else {
+            $entry->getParent()->setLeft($left);
+        }
+
+        $left?->setRight($entry);
+        $entry->setParent($left);
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue>|null $entry
+     */
+    private function rotateLeft(?TreeMapEntry $entry): void
+    {
+        if ($entry == null) {
+            return;
+        }
+
+        $right = $entry->getRight();
+        $entry->setRight($right?->getLeft());
+
+        $right?->getLeft()?->setParent($entry);
+        $right?->setParent($entry->getParent());
+        if ($entry->getParent() === null) {
+            $this->root = $right;
+        } elseif ($entry->getParent()->getLeft() === $entry) {
+            $entry->getParent()->setLeft($right);
+        } else {
+            $entry->getParent()->setRight($right);
+        }
+
+        $right?->setLeft($entry);
+        $entry->setParent($right);
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $subject
+     * @return TreeMapEntry<TKey, TValue>|null
+     */
+    private function fixViolationAfterInsertion(TreeMapEntry $subject): ?TreeMapEntry
+    {
+        if ($subject->getParent() === $subject->getParent()?->getParent()?->getLeft()) {
+            $subject = $this->fixLineViolation($subject);
+        } else {
+            $subject = $this->fixTriangleViolation($subject);
+        }
+        return $subject;
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $subject
+     * @return TreeMapEntry<TKey, TValue>|null
+     */
+    private function fixLineViolation(TreeMapEntry $subject): ?TreeMapEntry
+    {
+        $uncle = $subject->getParent()?->getParent()?->getRight();
+        if ($uncle?->getColor() === TreeMap::RED) {
+            $subject->getParent()?->setColor(TreeMap::BLACK);
+            $uncle->setColor(TreeMap::BLACK);
+            $subject->getParent()?->getParent()?->setColor(TreeMap::RED);
+            $subject = $subject->getParent()?->getParent();
+        } else {
+            if ($subject === $subject->getParent()?->getRight()) {
+                $subject = $subject->getParent();
+                $this->rotateLeft($subject);
+            }
+            $subject->getParent()?->setColor(TreeMap::BLACK);
+            $subject->getParent()?->getParent()?->setColor(TreeMap::RED);
+            $this->rotateRight($subject->getParent()?->getParent());
+        }
+        return $subject;
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $subject
+     * @return TreeMapEntry<TKey, TValue>|null
+     */
+    private function fixTriangleViolation(TreeMapEntry $subject): ?TreeMapEntry
+    {
+        $uncle = $subject->getParent()?->getParent()?->getLeft();
+        if ($uncle?->getColor() === TreeMap::RED) {
+            $subject->getParent()?->setColor(TreeMap::BLACK);
+            $uncle->setColor(TreeMap::BLACK);
+            $subject->getParent()?->getParent()?->setColor(TreeMap::RED);
+            $subject = $subject->getParent()?->getParent();
+        } else {
+            if ($subject === $subject->getParent()?->getLeft()) {
+                $subject = $subject->getParent();
+                $this->rotateRight($subject);
+            }
+            $subject->getParent()?->setColor(TreeMap::BLACK);
+            $subject->getParent()?->getParent()?->setColor(TreeMap::RED);
+            $this->rotateLeft($subject->getParent()?->getParent());
+        }
+        return $subject;
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $entry
+     */
+    private function rebalanceAfterDeletion(TreeMapEntry $entry): void
+    {
+        while ($entry !== $this->root && $entry?->getColor() === TreeMap::BLACK) {
+            $entry = $this->fixViolationAfterDeletion($entry);
+        }
+
+        $entry?->setColor(TreeMap::BLACK);
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $entry
+     * @return TreeMapEntry<TKey, TValue>|null $entry
+     */
+    private function fixViolationAfterDeletion(TreeMapEntry $entry): ?TreeMapEntry
+    {
+        if ($entry === $entry->getParent()?->getLeft()) {
+            $sibling = $entry->getParent()->getRight();
+
+            if ($sibling?->getColor() === TreeMap::RED) {
+                $sibling->setColor(TreeMap::BLACK);
+                $entry->getParent()->setColor(TreeMap::RED);
+                $this->rotateLeft($entry->getParent());
+            }
+
+            if ($sibling->getLeft()?->getColor() === TreeMap::BLACK && $sibling->getRight()?->getColor() === TreeMap::BLACK) {
+                $sibling->setColor(TreeMap::RED);
+                $entry = $entry->getParent();
+            } else {
+                if ($sibling->getRight()?->getColor() === TreeMap::BLACK) {
+                    $sibling->getLeft()?->setColor(TreeMap::BLACK);
+                    $sibling->setColor(TreeMap::RED);
+                    $this->rotateRight($sibling);
+                }
+                $sibling->setColor($entry->getParent()->getColor());
+                $entry->getParent()->setColor(TreeMap::BLACK);
+                $sibling->getRight()?->setColor(TreeMap::BLACK);
+                $this->rotateLeft($entry->getParent());
+                $entry = $this->root;
+            }
+        } else {
+            $sibling = $entry->getParent()?->getLeft();
+
+            if ($sibling?->getColor() === TreeMap::RED) {
+                $sibling->setColor(TreeMap::BLACK);
+                $entry->getParent()?->setColor(TreeMap::RED);
+                $this->rotateRight($entry->getParent());
+            }
+
+            if ($sibling->getRight()?->getColor() === TreeMap::BLACK && $sibling->getLeft()?->getColor() === TreeMap::BLACK) {
+                $sibling->setColor(TreeMap::RED);
+                $entry = $entry->getParent();
+            } else {
+                if ($sibling->getLeft()?->getColor() === TreeMap::BLACK) {
+                    $sibling->getRight()?->setColor(TreeMap::BLACK);
+                    $sibling->setColor(TreeMap::RED);
+                    $this->rotateLeft($sibling);
+                }
+                $parentColor = $entry->getParent()?->getColor();
+                if ($parentColor !== null) {
+                    $sibling->setColor($parentColor);
+                }
+                $entry->getParent()?->setColor(TreeMap::BLACK);
+                $sibling->getLeft()?->setColor(TreeMap::BLACK);
+                $this->rotateRight($entry->getParent());
+                $entry = $this->root;
+            }
+        }
+
+        return $entry;
     }
 }

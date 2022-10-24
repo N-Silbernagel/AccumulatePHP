@@ -7,7 +7,7 @@ namespace Tests\Map;
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
 use AccumulatePHP\Map\Map;
-use AccumulatePHP\Map\UnsupportedKeyException;
+use AccumulatePHP\Map\UnsupportedKey;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
@@ -180,7 +180,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
         /** @var HashMap<resource, int> $hashMap */
         $hashMap = HashMap::new();
 
-        $this->expectException(UnsupportedKeyException::class);
+        $this->expectException(UnsupportedKey::class);
 
         $hashMap->put($resource, 1);
     }
@@ -346,7 +346,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_not_support_array_keys(): void
     {
-        $this->expectException(UnsupportedKeyException::class);
+        $this->expectException(UnsupportedKey::class);
 
         $hashMap = HashMap::new();
         $hashMap->put([], true);

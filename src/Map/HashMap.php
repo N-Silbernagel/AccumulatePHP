@@ -183,7 +183,7 @@ final class HashMap implements Map, IteratorAggregate
         // resource are not reliable keys
         // arrays cannot be hashed reliably
         if (is_resource($key) || is_array($key)) {
-            throw new UnsupportedKeyException('Unsupported key type.');
+            throw new UnsupportedKey('Unsupported key type.');
         }
 
         if ($key instanceof Hashable) {

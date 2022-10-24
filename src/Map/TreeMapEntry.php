@@ -22,6 +22,8 @@ final class TreeMapEntry
      */
     private ?self $right = null;
 
+    private bool $color = TreeMap::RED;
+
     /**
      * @param Entry<TKey, TValue> $entry
      * @param TreeMapEntry<TKey, TValue>|null $parent
@@ -131,5 +133,15 @@ final class TreeMapEntry
     public function setParent(?TreeMapEntry $newParent): void
     {
         $this->parent = $newParent;
+    }
+
+    public function getColor(): bool
+    {
+        return $this->color;
+    }
+
+    public function setColor(bool $newColor): void
+    {
+        $this->color = $newColor;
     }
 }
