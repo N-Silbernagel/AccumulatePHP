@@ -1,4 +1,4 @@
-![Tests](https://github.com/N-Silbernagel/AccumulatePHP/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/N-Silbernagel/AccumulatePHP-src/actions/workflows/ci.yml/badge.svg)
 
 Development happens at [AccumulatePHP-src](https://github.com/N-Silbernagel/AccumulatePHP-src)
 
