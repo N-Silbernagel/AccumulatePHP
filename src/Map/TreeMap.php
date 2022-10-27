@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
+use AccumulatePHP\Comparable;
 use AccumulatePHP\Series\ArraySeries;
 use AccumulatePHP\Series\Series;
 use IteratorAggregate;
@@ -308,6 +309,10 @@ final class TreeMap implements SequencedMap, IteratorAggregate
 
     private function compare(mixed $target, mixed $comparison): int
     {
+        if ($target instanceof Comparable && $comparison instanceof Comparable) {
+            return $target->compareTo($comparison);
+        }
+
         if (is_scalar($target) !== is_scalar($comparison)) {
             throw new IncomparableKeys($target, $comparison);
         }

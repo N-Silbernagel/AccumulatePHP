@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
+use AccumulatePHP\Comparable;
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
 use AccumulatePHP\Map\Map;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
+use Tests\ReverseComparable;
 
 final class TreeMapTest extends TestCase implements MapTestContract, AccumulationTestContract
 {
@@ -254,5 +256,25 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
         self::assertNull($treeMap->get(5));
         self::assertTrue($treeMap->get(4));
         self::assertTrue($treeMap->get(6));
+    }
+
+    /** @test */
+    public function it_should_compare_by_comparable_(): void
+    {
+        $zero = ReverseComparable::of(0);
+        $one = ReverseComparable::of(1);
+        $two = ReverseComparable::of(2);
+
+        $treeMap = TreeMap::new();
+
+        $treeMap->put($zero, 0);
+        $treeMap->put($one, 1);
+        $treeMap->put($two, 2);
+
+        $values = $treeMap->values();
+
+        self::assertSame(2, $values->get(0));
+        self::assertSame(1, $values->get(1));
+        self::assertSame(0, $values->get(2));
     }
 }
