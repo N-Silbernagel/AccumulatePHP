@@ -3,7 +3,6 @@ parameters:
     paths:
         - src
         - tests
-    editorUrl: 'idea://open?file=%%file%%&line=%%line%%'
 includes:
     - vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
