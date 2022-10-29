@@ -1,4 +1,8 @@
 ![Tests](https://github.com/N-Silbernagel/AccumulatePHP-src/actions/workflows/ci.yml/badge.svg)
+[![Latest Stable Version](http://poser.pugx.org/nsilbernagel/accumulatephp/v)](https://packagist.org/packages/nsilbernagel/accumulatephp)
+[![Total Downloads](http://poser.pugx.org/nsilbernagel/accumulatephp/downloads)](https://packagist.org/packages/nsilbernagel/accumulatephp)
+[![License](http://poser.pugx.org/nsilbernagel/accumulatephp/license)](https://packagist.org/packages/nsilbernagel/accumulatephp)
+[![PHP Version Require](http://poser.pugx.org/nsilbernagel/accumulatephp/require/php)](https://packagist.org/packages/nsilbernagel/accumulatephp)
 
 Development happens at [AccumulatePHP-src](https://github.com/N-Silbernagel/AccumulatePHP-src)
 
