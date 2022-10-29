@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Comparable;
+use AccumulatePHP\Comparator;
 use AccumulatePHP\Series\ArraySeries;
 use AccumulatePHP\Series\Series;
 use IteratorAggregate;
@@ -30,13 +31,19 @@ final class TreeMap implements SequencedMap, IteratorAggregate
     private ?TreeMapEntry $root = null;
     private int $size = 0;
 
-    private function __construct()
+    /**
+     * @param Comparator<TKey>|null $comparator
+     */
+    private function __construct(
+        private ?Comparator $comparator = null
+    )
     {
     }
 
     /**
      * @return self<TKey, TValue>
      */
+    #[Pure]
     public static function new(): self
     {
         return new self();
@@ -64,6 +71,17 @@ final class TreeMap implements SequencedMap, IteratorAggregate
     public static function of(...$items): self
     {
         return self::fromArray($items);
+    }
+
+    /**
+     * @template TComparator
+     * @param Comparator<TComparator> $comparator
+     * @return self<TComparator, TValue>
+     */
+    #[Pure]
+    public static function comparingBy(Comparator $comparator): self
+    {
+        return new self($comparator);
     }
 
     public function toArray(): array
@@ -307,16 +325,20 @@ final class TreeMap implements SequencedMap, IteratorAggregate
         return $parent;
     }
 
-    private function compare(mixed $target, mixed $comparison): int
+    private function compare(mixed $first, mixed $second): int
     {
-        if ($target instanceof Comparable && $comparison instanceof Comparable) {
-            return $target->compareTo($comparison);
+        if ($this->comparator !== null) {
+            return $this->comparator->compare($first, $second);
         }
 
-        if (is_scalar($target) !== is_scalar($comparison)) {
-            throw new IncomparableKeys($target, $comparison);
+        if ($first instanceof Comparable && $second instanceof Comparable) {
+            return $first->compareTo($second);
         }
-        return $comparison <=> $target;
+
+        if (is_scalar($first) !== is_scalar($second)) {
+            throw new IncomparableKeys($first, $second);
+        }
+        return $second <=> $first;
     }
 
     /**

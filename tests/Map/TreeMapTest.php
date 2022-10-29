@@ -9,9 +9,13 @@ use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
 use AccumulatePHP\Map\Map;
+use AccumulatePHP\Series\ArraySeries;
+use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\ReverseComparable;
+use Tests\StringLengthComparator;
+use function _PHPStan_3bfe2e67c\RingCentral\Psr7\str;
 
 final class TreeMapTest extends TestCase implements MapTestContract, AccumulationTestContract
 {
@@ -276,5 +280,29 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
         self::assertSame(2, $values->get(0));
         self::assertSame(1, $values->get(1));
         self::assertSame(0, $values->get(2));
+    }
+
+    /** @test */
+    public function it_should_compare_by_comparator(): void
+    {
+        $stringLengthComparator = new StringLengthComparator();
+
+        /**
+         * @var Map<string, true> $map
+         */
+        $map = TreeMap::comparingBy($stringLengthComparator);
+
+        $map->put('aaa', true);
+        $map->put('aa', true);
+        $map->put('ba', true);
+
+        $collector = ArraySeries::new();
+        foreach ($map as $entry) {
+            $collector->add($entry->getKey());
+        }
+
+        self::assertSame('aa', $collector->get(0));
+        self::assertSame('aaa', $collector->get(1));
+        self::assertSame(2, $collector->count());
     }
 }
