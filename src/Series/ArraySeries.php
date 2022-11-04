@@ -17,7 +17,7 @@ use Traversable;
 final class ArraySeries implements Series, IteratorAggregate
 {
     /**
-     * @param array<T> $repository the internal array used for keeping the values
+     * @param list<T> $repository the internal array used for keeping the values
      */
     private function __construct(
         private array $repository)
@@ -40,7 +40,7 @@ final class ArraySeries implements Series, IteratorAggregate
     #[Pure]
     public static function of(...$items): self
     {
-        return new self($items);
+        return self::fromArray($items);
     }
 
     /**
@@ -117,7 +117,7 @@ final class ArraySeries implements Series, IteratorAggregate
     }
 
     /**
-     * @return array<int, T>
+     * @return list<T>
      */
     public function toArray(): array
     {

@@ -411,7 +411,7 @@ final class TreeMap implements SequencedMap, IteratorAggregate
 
         $left?->getRight()?->setParent($entry);
         $left?->setParent($entry->getParent());
-        if ($entry->getParent() === null) {
+        if (!$entry->hasParent()) {
             $this->root = $left;
         } elseif ($entry->getParent()->getRight() === $entry) {
             $entry->getParent()->setRight($left);
@@ -437,7 +437,7 @@ final class TreeMap implements SequencedMap, IteratorAggregate
 
         $right?->getLeft()?->setParent($entry);
         $right?->setParent($entry->getParent());
-        if ($entry->getParent() === null) {
+        if (!$entry->hasParent()) {
             $this->root = $right;
         } elseif ($entry->getParent()->getLeft() === $entry) {
             $entry->getParent()->setLeft($right);

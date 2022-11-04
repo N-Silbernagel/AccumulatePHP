@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
-use AccumulatePHP\Comparable;
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
 use AccumulatePHP\Map\Map;
 use AccumulatePHP\Series\ArraySeries;
-use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\ReverseComparable;
 use Tests\StringLengthComparator;
-use function _PHPStan_3bfe2e67c\RingCentral\Psr7\str;
 
 final class TreeMapTest extends TestCase implements MapTestContract, AccumulationTestContract
 {

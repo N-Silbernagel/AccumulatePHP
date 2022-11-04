@@ -135,6 +135,12 @@ final class TreeMapEntry
         $this->parent = $newParent;
     }
 
+    /** @phpstan-assert-if-true !null $this->getParent() */
+    public function hasParent(): bool
+    {
+        return $this->parent !== null;
+    }
+
     public function getColor(): bool
     {
         return $this->color;

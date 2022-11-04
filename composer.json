@@ -19,8 +19,8 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "9.5.*",
-        "phpstan/phpstan": "1.8.*",
+        "phpunit/phpunit": "~9.5.26",
+        "phpstan/phpstan": "~1.9.1",
         "ergebnis/phpstan-rules": "1.0.*",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.1",
