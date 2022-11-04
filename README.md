@@ -15,7 +15,49 @@ Using more refined datastructures allows for safer, often more efficient code th
 ## Static Analysis
 AccumulatePHP provides first class support for static analysis through PHPStan level 9.
 
+## Examples
+### ArraySeries
+```php
+// create empty list
+$series = ArraySeries::new();
+
+// create list with elements 1,2 and 3
+$series = ArraySeries::of(1,2,3);
+
+// add 4
+$series->add(4);
+
+// remove 4th element
+$series->remove(3);
+
+// filter list for event number
+$evenNumbers = $series->filter(fn(int $number) => $number % 2 === 0)
+
+// map list, multiplay all elements by 2
+$multiplied = $series->map(fn(int $number) => $number*2)
+```
+For a complete overview of ArraySeries and the other series available, please refer to the source files under src/series
+
+### HashMap
+```php
+// create empty map
+$series = ArraySeries::new();
+
+// create map with initial entries
+$series = ArraySeries::of(
+    Entry::of('example', 'code'),
+    Entry::of('is', 'fun'),
+);
+
+// add entry
+$series->put('isnt', 'it?');
+
+// remove entry via key
+$series->remove('isnt');
+```
+Hashmaps can use any type keys, except for resources and arrays. Classes may implement Hashable interface to determine their hash function and definition of equality. You may refer to https://www.baeldung.com/java-equals-hashcode-contracts to learn more about equals and hashcode and their contracts. 
 ## Structure
+
 ```mermaid
 classDiagram
     direction BT
