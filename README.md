@@ -46,19 +46,19 @@ For a complete overview of ArraySeries and the other series available, please re
 ### HashMap
 ```php
 // create empty map
-$series = ArraySeries::new();
+$map = Hashmap::new();
 
 // create map with initial entries
-$series = ArraySeries::of(
+$map = Hashmap::of(
     Entry::of('example', 'code'),
     Entry::of('is', 'fun'),
 );
 
 // add entry
-$series->put('isnt', 'it?');
+$map->put('isnt', 'it?');
 
 // remove entry via key
-$series->remove('isnt');
+$map->remove('isnt');
 ```
 Hashmaps can use any type keys, except for resources and arrays. Classes may implement Hashable interface to determine their hash function and definition of equality. You may refer to https://www.baeldung.com/java-equals-hashcode-contracts to learn more about equals and hashcode and their contracts. 
 ## Structure
