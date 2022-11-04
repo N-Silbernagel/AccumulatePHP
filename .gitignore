@@ -1,2 +1,4 @@
 /vendor/
 /coverage-html/
+.phpunit.cache
+.phpunit.result.cache
