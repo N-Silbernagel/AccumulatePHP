@@ -15,7 +15,12 @@ Using more refined datastructures allows for safer, often more efficient code th
 ## Static Analysis
 AccumulatePHP provides first class support for static analysis through PHPStan level 9.
 
-## Examples
+## Installation
+```bash
+composer require nsilbernagel/accumulatephp
+```
+
+## Usage Examples
 ### ArraySeries
 ```php
 // create empty list
