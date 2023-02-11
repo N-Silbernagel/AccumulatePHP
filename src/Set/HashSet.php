@@ -11,10 +11,10 @@ use Traversable;
 
 /**
  * @template T
- * @implements Set<T>
+ * @implements MutableSet<T>
  * @implements IteratorAggregate<int, T>
  */
-final class HashSet implements Set, IteratorAggregate
+final class HashSet implements MutableSet, IteratorAggregate
 {
     /** @param HashMap<T, true> $hashMap */
     private function __construct(

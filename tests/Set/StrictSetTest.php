@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Set;
 
 use AccumulatePHP\Set\StrictSet;
+use AccumulatePHP\Set\MutableSet;
 use AccumulatePHP\Set\Set;
-use AccumulatePHP\Set\ReadonlySet;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
-final class StrictSetTest extends TestCase implements AccumulationTestContract, SetTestContract
+final class StrictSetTest extends TestCase implements AccumulationTestContract, MutableSetTestContract
 {
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
@@ -18,25 +18,25 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
         $set = StrictSet::new();
 
         self::assertInstanceOf(StrictSet::class, $set);
-        self::assertInstanceOf(ReadonlySet::class, $set);
+        self::assertInstanceOf(Set::class, $set);
         self::assertTrue($set->isEmpty());
     }
 
     /** @test */
     public function it_should_allow_instantiating_from_array(): void
     {
-        /** @var ReadonlySet<int> $set */
+        /** @var Set<int> $set */
         $set = StrictSet::fromArray([]);
 
         self::assertInstanceOf(StrictSet::class, $set);
-        self::assertInstanceOf(ReadonlySet::class, $set);
+        self::assertInstanceOf(Set::class, $set);
         self::assertTrue($set->isEmpty());
     }
 
     /** @test */
     public function it_should_not_be_empty_when_instantiating_from_array_with_elements(): void
     {
-        /** @var ReadonlySet<int> $set */
+        /** @var Set<int> $set */
         $set = StrictSet::fromArray([4, 9]);
 
         self::assertFalse($set->isEmpty());
@@ -75,7 +75,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function it_should_return_false_when_adding_values_that_are_equal_by_type_and_value(): void
     {
-        /** @var Set<int|string> $set */
+        /** @var MutableSet<int|string> $set */
         $set = StrictSet::new();
 
         $set->add(1);
@@ -88,7 +88,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function it_should_return_true_when_adding_values_that_are_equal_by_value_but_not_type(): void
     {
-        /** @var Set<int|string> $set */
+        /** @var MutableSet<int|string> $set */
         $set = StrictSet::new();
 
         $set->add(1);
@@ -101,7 +101,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function it_should_return_false_when_removing_values_that_didnt_exist(): void
     {
-        /** @var Set<int|string> $set */
+        /** @var MutableSet<int|string> $set */
         $set = StrictSet::new();
 
         $set->add(1);
@@ -114,7 +114,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function it_should_return_true_when_removing_values_that_existed(): void
     {
-        /** @var Set<int> $set */
+        /** @var MutableSet<int> $set */
         $set = StrictSet::new();
 
         $set->add(1);
@@ -127,7 +127,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function contains_should_return_true_if_set_contains_element(): void
     {
-        /** @var Set<int> $mutableHashSet */
+        /** @var MutableSet<int> $mutableHashSet */
         $mutableHashSet = StrictSet::new();
 
         $mutableHashSet->add(77);
@@ -138,7 +138,7 @@ final class StrictSetTest extends TestCase implements AccumulationTestContract, 
     /** @test */
     public function contains_should_return_false_if_set_does_not_contain_element(): void
     {
-        /** @var Set<int> $mutableHashSet */
+        /** @var MutableSet<int> $mutableHashSet */
         $mutableHashSet = StrictSet::new();
 
         $mutableHashSet->add(66);

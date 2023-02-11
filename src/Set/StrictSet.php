@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace AccumulatePHP\Set;
 
 use AccumulatePHP\Series\ArraySeries;
-use AccumulatePHP\Series\Series;
+use AccumulatePHP\Series\MutableSeries;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use Traversable;
 
 /**
  * @template T
- * @implements Set<T>
+ * @implements MutableSet<T>
  * @implements IteratorAggregate<int, T>
  */
-final class StrictSet implements Set, IteratorAggregate
+final class StrictSet implements MutableSet, IteratorAggregate
 {
-    /** @var Series<T>
+    /** @var MutableSeries<T>
      * @readonly  */
-    private Series $repository;
+    private MutableSeries $repository;
 
-    /** @param Series<T>|null $repository */
+    /** @param MutableSeries<T>|null $repository */
     #[Pure]
-    private function __construct(?Series $repository = null)
+    private function __construct(?MutableSeries $repository = null)
     {
         $this->repository = $repository ?? ArraySeries::new();
     }
@@ -43,7 +43,7 @@ final class StrictSet implements Set, IteratorAggregate
      */
     public static function fromArray(array $array): self
     {
-        /** @var Series<T> $encounteredValues */
+        /** @var MutableSeries<T> $encounteredValues */
         $encounteredValues = ArraySeries::new();
 
         foreach ($array as $item) {

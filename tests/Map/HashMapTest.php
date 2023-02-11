@@ -6,12 +6,12 @@ namespace Tests\Map;
 
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\HashMap;
-use AccumulatePHP\Map\Map;
+use AccumulatePHP\Map\MutableMap;
 use AccumulatePHP\Map\UnsupportedKey;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
-final class HashMapTest extends TestCase implements AccumulationTestContract, MapTestContract
+final class HashMapTest extends TestCase implements AccumulationTestContract, MutableMapTestContract
 {
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
@@ -216,7 +216,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_be_traversable(): void
     {
-        /** @var Map<UnequalHashable, String> $map */
+        /** @var MutableMap<UnequalHashable, String> $map */
         $map = HashMap::new();
 
         $one = new UnequalHashable(1, 1);
@@ -270,7 +270,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_be_convertable_to_assoc_array(): void
     {
-        /** @var Map<string|EqualHashable, string> $map */
+        /** @var MutableMap<string|EqualHashable, string> $map */
         $map = HashMap::new();
 
         $map->put('hello', 'world');
@@ -283,7 +283,7 @@ final class HashMapTest extends TestCase implements AccumulationTestContract, Ma
     /** @test */
     public function it_should_ignore_non_scalar_keys_when_converting_to_assoc_array(): void
     {
-        /** @var Map<string|EqualHashable, string> $map */
+        /** @var MutableMap<string|EqualHashable, string> $map */
         $map = HashMap::new();
 
         $hashable = new EqualHashable('test');

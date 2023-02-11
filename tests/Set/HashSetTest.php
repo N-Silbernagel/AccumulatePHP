@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Tests\Set;
 
 use AccumulatePHP\Set\HashSet;
-use AccumulatePHP\Set\Set;
+use AccumulatePHP\Set\MutableSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\Map\UnequalHashable;
 
-final class HashSetTest extends TestCase implements AccumulationTestContract, SetTestContract
+final class HashSetTest extends TestCase implements AccumulationTestContract, MutableSetTestContract
 {
     /** @test */
     public function it_should_be_traversable(): void
     {
-        /** @var Set<UnequalHashable> $set */
+        /** @var MutableSet<UnequalHashable> $set */
         $set = HashSet::new();
 
         $one = new UnequalHashable(5, 1);
@@ -47,7 +47,7 @@ final class HashSetTest extends TestCase implements AccumulationTestContract, Se
     /** @test */
     public function contains_should_return_true_if_set_contains_element(): void
     {
-        /** @var Set<int> $mutableHashSet */
+        /** @var MutableSet<int> $mutableHashSet */
         $mutableHashSet = HashSet::new();
 
         $mutableHashSet->add(77);
@@ -58,7 +58,7 @@ final class HashSetTest extends TestCase implements AccumulationTestContract, Se
     /** @test */
     public function contains_should_return_false_if_set_does_not_contain_element(): void
     {
-        /** @var Set<int> $mutableHashSet */
+        /** @var MutableSet<int> $mutableHashSet */
         $mutableHashSet = HashSet::new();
 
         $mutableHashSet->add(66);
@@ -105,7 +105,7 @@ final class HashSetTest extends TestCase implements AccumulationTestContract, Se
     /** @test */
     public function it_should_return_false_when_removing_values_that_didnt_exist(): void
     {
-        /** @var Set<int|string> $set */
+        /** @var MutableSet<int|string> $set */
         $set = HashSet::new();
 
         $set->add(1);
@@ -118,7 +118,7 @@ final class HashSetTest extends TestCase implements AccumulationTestContract, Se
     /** @test */
     public function it_should_return_true_when_removing_values_that_existed(): void
     {
-        /** @var Set<int> $set */
+        /** @var MutableSet<int> $set */
         $set = HashSet::new();
 
         $set->add(1);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Map;
 
-interface MapTestContract
+interface MutableMapTestContract
 {
     public function it_should_be_creatable_from_assoc_array(): void;
 

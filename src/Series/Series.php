@@ -4,20 +4,47 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Series;
 
+use AccumulatePHP\SequencedAccumulation;
+
 /**
  * @template T
- * @extends ReadonlySeries<T>
+ * @extends SequencedAccumulation<int,T>
  */
-interface Series extends ReadonlySeries
+interface Series extends SequencedAccumulation
 {
     /**
-     * @param T $item
+     * @template CallableReturnType
+     * @param callable(T): CallableReturnType $mapConsumer
+     * @return Series<CallableReturnType>
      */
-    public function add(mixed $item): void;
+    public function map(callable $mapConsumer): Series;
 
     /**
-     * @param int $index
-     * @return T the removed item
+     * @return T
      */
-    public function remove(int $index): mixed;
+    public function get(int $index): mixed;
+
+    /**
+     * @param callable(T): bool $filterConsumer
+     * @return Series<T>
+     */
+    public function filter(callable $filterConsumer): Series;
+
+    /** @param T $element */
+    public function containsLoose(mixed $element): bool;
+
+    /** @param T $element */
+    public function contains(mixed $element): bool;
+
+    /**
+     * @param callable(T): bool $findConsumer
+     * @return T|null first element that matched the consumer or null
+     */
+    public function find(callable $findConsumer): mixed;
+
+    /**
+     * @param callable(T): bool $findConsumer
+     * @return int|null index of first matched element or null
+     */
+    public function findIndex(callable $findConsumer): ?int;
 }

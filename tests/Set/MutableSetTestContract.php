@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Set;
 
-interface SetTestContract
+interface MutableSetTestContract
 {
     public function contains_should_return_true_if_set_contains_element(): void;
 

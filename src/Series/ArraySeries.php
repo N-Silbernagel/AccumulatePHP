@@ -11,10 +11,10 @@ use Traversable;
 
 /**
  * @template T
- * @implements Series<T>
+ * @implements MutableSeries<T>
  * @implements IteratorAggregate<int, T>
  */
-final class ArraySeries implements Series, IteratorAggregate
+final class ArraySeries implements MutableSeries, IteratorAggregate
 {
     /**
      * @param list<T> $repository the internal array used for keeping the values

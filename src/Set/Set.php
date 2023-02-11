@@ -4,21 +4,16 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Set;
 
+use AccumulatePHP\Accumulation;
+
 /**
- * @template TValue
- * @extends ReadonlySet<TValue>
+ * @template T
+ * @extends Accumulation<int, T>
  */
-interface Set extends ReadonlySet
+interface Set extends Accumulation
 {
     /**
-     * @param TValue $element
-     * @return bool true if the set did not already contain the element
+     * @param T $element
      */
-    public function add(mixed $element): bool;
-
-    /**
-     * @param TValue $element
-     * @return bool true if the set included the element
-     */
-    public function remove(mixed $element): bool;
+    public function contains(mixed $element): bool;
 }

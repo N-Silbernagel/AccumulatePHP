@@ -6,7 +6,7 @@ namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Hashable;
 use AccumulatePHP\Series\ArraySeries;
-use AccumulatePHP\Series\ReadonlySeries;
+use AccumulatePHP\Series\Series;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use SplDoublyLinkedList;
@@ -15,10 +15,10 @@ use Traversable;
 /**
  * @template TKey
  * @template TValue
- * @implements Map<TKey, TValue>
+ * @implements MutableMap<TKey, TValue>
  * @implements IteratorAggregate<int, Entry<TKey, TValue>>
  */
-final class HashMap implements Map, IteratorAggregate
+final class HashMap implements MutableMap, IteratorAggregate
 {
     private int $size;
     /**
@@ -92,9 +92,9 @@ final class HashMap implements Map, IteratorAggregate
     }
 
     /**
-     * @return ReadonlySeries<TValue>
+     * @return Series<TValue>
      */
-    public function values(): ReadonlySeries
+    public function values(): Series
     {
         /** @var ArraySeries<TValue> $series */
         $series = ArraySeries::new();

@@ -7,7 +7,7 @@ namespace AccumulatePHP\Map;
 use AccumulatePHP\Comparable;
 use AccumulatePHP\Comparator;
 use AccumulatePHP\Series\ArraySeries;
-use AccumulatePHP\Series\Series;
+use AccumulatePHP\Series\MutableSeries;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use Traversable;
@@ -17,10 +17,10 @@ use Traversable;
  *
  * @template TKey
  * @template TValue
- * @implements SequencedMap<TKey, TValue>
+ * @implements SequencedMutableMap<TKey, TValue>
  * @implements IteratorAggregate<int, Entry<TKey, TValue>>
  */
-final class TreeMap implements SequencedMap, IteratorAggregate
+final class TreeMap implements SequencedMutableMap, IteratorAggregate
 {
     public const RED = false;
     public const BLACK = true;
@@ -209,11 +209,11 @@ final class TreeMap implements SequencedMap, IteratorAggregate
     }
 
     /**
-     * @return Series<TValue>
+     * @return MutableSeries<TValue>
      */
-    public function values(): Series
+    public function values(): MutableSeries
     {
-        /** @var Series<TValue> $series */
+        /** @var MutableSeries<TValue> $series */
         $series = ArraySeries::new();
 
         foreach ($this as $entry) {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Series;
 
 use AccumulatePHP\Series\ReadonlyArraySeries;
+use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\Series;
-use AccumulatePHP\Series\ReadonlySeries;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 
@@ -65,7 +65,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     public function it_should_allow_mapping_according_to_a_closure(): void
     {
         /**
-         * @var ReadonlySeries<int> $series
+         * @var Series<int> $series
          */
         $series = ReadonlyArraySeries::fromArray([1, 2, 3]);
 
@@ -107,7 +107,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function it_is_filterable_through_callable(): void
     {
-        /** @var ReadonlySeries<string> $series */
+        /** @var Series<string> $series */
         $series = ReadonlyArraySeries::of('1', '12.4', 'abc');
 
         $filteredSeries = $series->filter(fn(string $item) => is_numeric($item));
@@ -142,7 +142,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
             'test' => 10
         ];
 
-        /** @var ReadonlySeries<int> $series */
+        /** @var Series<int> $series */
         $series = ReadonlyArraySeries::fromArray($input);
 
         self::assertSame(0, $series->get(0));
@@ -152,7 +152,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function it_should_know_if_it_contains_element(): void
     {
-        /** @var ReadonlySeries<int> $series */
+        /** @var Series<int> $series */
         $series = ReadonlyArraySeries::of(1, 2, 3);
 
         self::assertTrue($series->containsLoose(1));
@@ -162,7 +162,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function contains_loose_should_be_non_strict(): void
     {
-        /** @var ReadonlySeries<int|string> $series */
+        /** @var Series<int|string> $series */
         $series = ReadonlyArraySeries::of(1, 2, 3);
 
         self::assertTrue($series->containsLoose(2));
@@ -172,7 +172,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function it_should_know_if_it_strictly_contains_element(): void
     {
-        /** @var ReadonlySeries<int> $series */
+        /** @var Series<int> $series */
         $series = ReadonlyArraySeries::of(9, 55, 2);
 
         self::assertTrue($series->contains(55));
@@ -182,7 +182,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function contains_should_be_strict(): void
     {
-        /** @var ReadonlySeries<int|string> $series */
+        /** @var Series<int|string> $series */
         $series = ReadonlyArraySeries::of(1, 2, 3);
 
         self::assertTrue($series->contains(2));
@@ -192,7 +192,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function find_should_return_match_if_exists(): void
     {
-        /** @var ReadonlySeries<string> $series */
+        /** @var Series<string> $series */
         $series = ReadonlyArraySeries::of('hello', 'world');
 
         $actual = $series->find(fn(string $element) => str_starts_with($element, 'w'));
@@ -202,7 +202,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function find_should_return_null_if_no_match_exists(): void
     {
-        /** @var ReadonlySeries<string> $series */
+        /** @var Series<string> $series */
         $series = ReadonlyArraySeries::of('hello', 'world');
 
         $actual = $series->find(fn(string $element) => str_starts_with($element, 'not'));
@@ -212,7 +212,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function find_index_should_return_index_of_first_match(): void
     {
-        /** @var Series<int> $series */
+        /** @var MutableSeries<int> $series */
         $series = ReadonlyArraySeries::of(1, 2, 3, 4, 3);
 
         $index = $series->findIndex(fn(int $item) => $item === 3);
@@ -223,7 +223,7 @@ final class ReadonlyArraySeriesTest extends TestCase implements AccumulationTest
     /** @test */
     public function find_index_should_return_null_if_no_match_exists(): void
     {
-        /** @var Series<int> $series */
+        /** @var MutableSeries<int> $series */
         $series = ReadonlyArraySeries::of(1, 2, 3, 4);
 
         $index = $series->findIndex(fn(int $item) => $item === 5);

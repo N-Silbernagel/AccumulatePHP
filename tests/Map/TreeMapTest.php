@@ -7,14 +7,14 @@ namespace Tests\Map;
 use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
-use AccumulatePHP\Map\Map;
+use AccumulatePHP\Map\MutableMap;
 use AccumulatePHP\Series\ArraySeries;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\ReverseComparable;
 use Tests\StringLengthComparator;
 
-final class TreeMapTest extends TestCase implements MapTestContract, AccumulationTestContract
+final class TreeMapTest extends TestCase implements MutableMapTestContract, AccumulationTestContract
 {
     /** @test */
     public function it_should_be_creatable_from_assoc_array(): void
@@ -163,7 +163,7 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
     /** @test */
     public function it_should_allow_putting_entries_in(): void
     {
-        /** @var Map<int, int> $treeMap */
+        /** @var MutableMap<int, int> $treeMap */
         $treeMap = TreeMap::new();
 
         $treeMap->put(1, 2);
@@ -285,7 +285,7 @@ final class TreeMapTest extends TestCase implements MapTestContract, Accumulatio
         $stringLengthComparator = new StringLengthComparator();
 
         /**
-         * @var Map<string, true> $map
+         * @var MutableMap<string, true> $map
          */
         $map = TreeMap::comparingBy($stringLengthComparator);
 

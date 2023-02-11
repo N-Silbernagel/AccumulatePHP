@@ -10,16 +10,16 @@ use Traversable;
 
 /**
  * @template T
- * @implements ReadonlySeries<T>
+ * @implements Series<T>
  * @implements IteratorAggregate<int, T>
  */
-final class ReadonlyArraySeries implements ReadonlySeries, IteratorAggregate
+final class ReadonlyArraySeries implements Series, IteratorAggregate
 {
     /**
-     * @param Series<T> $repository
+     * @param MutableSeries<T> $repository
      */
     private function __construct(
-        private ReadonlySeries $repository
+        private Series $repository
     )
     {
     }
@@ -30,7 +30,7 @@ final class ReadonlyArraySeries implements ReadonlySeries, IteratorAggregate
     #[Pure]
     public static function new(): self
     {
-        /** @var Series<T> $initSeries */
+        /** @var MutableSeries<T> $initSeries */
         $initSeries = ArraySeries::new();
         return new self($initSeries);
     }
@@ -47,10 +47,10 @@ final class ReadonlyArraySeries implements ReadonlySeries, IteratorAggregate
 
     /**
      * @template SeriesT
-     * @param ReadonlySeries<SeriesT> $series
+     * @param Series<SeriesT> $series
      * @return self<SeriesT>
      */
-    public static function fromSeries(ReadonlySeries $series): self
+    public static function fromSeries(Series $series): self
     {
         return self::fromArray($series->toArray());
     }
@@ -79,9 +79,9 @@ final class ReadonlyArraySeries implements ReadonlySeries, IteratorAggregate
     /**
      * @template ConsumerT
      * @param callable(T): ConsumerT $mapConsumer
-     * @return ReadonlySeries<ConsumerT>
+     * @return Series<ConsumerT>
      */
-    public function map(callable $mapConsumer): ReadonlySeries
+    public function map(callable $mapConsumer): Series
     {
         return $this->repository->map($mapConsumer);
     }

@@ -4,27 +4,36 @@ declare(strict_types=1);
 
 namespace AccumulatePHP\Map;
 
+use AccumulatePHP\Accumulation;
+use AccumulatePHP\Series\Series;
+
 /**
  * @template TKey
  * @template TValue
- * @extends ReadonlyMap<TKey, TValue>
+ * @extends Accumulation<int, Entry<TKey, TValue>>
  */
-interface Map extends ReadonlyMap
+interface Map extends Accumulation
 {
     /**
      * @param TKey $key
-     * @param TValue $value
-     * @return TValue|null the previous item for the key or null if there was none
-     *
+     * @return TValue|null
      * @throws UnsupportedKey If the underlying implementation does not support the type of the given key
      */
-    public function put(mixed $key, mixed $value): mixed;
+    public function get(mixed $key): mixed;
 
     /**
-     * @param TKey $key
-     * @return TValue|null the item associated with the key or null if there was none
-     *
-     * @throws UnsupportedKey If the underlying implementation does not support the type of the given key
+     * @return Series<TValue>
      */
-    public function remove(mixed $key): mixed;
+    public function values(): Series;
+
+    /**
+     * @param array<int|string, TValue> $assocArray
+     * @return static<int|string, TValue>
+     */
+    public static function fromAssoc(array $assocArray): Map;
+
+    /**
+     * @return array<int|string, TValue>
+     */
+    public function toAssoc(): array;
 }
