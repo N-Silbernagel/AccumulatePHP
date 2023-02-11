@@ -11,10 +11,10 @@ use Traversable;
 
 /**
  * @template T
- * @implements MutableSet<T>
+ * @implements SequencedMutableSet<T>
  * @implements IteratorAggregate<int, T>
  */
-final class TreeSet implements MutableSet, IteratorAggregate
+final class TreeSet implements SequencedMutableSet, IteratorAggregate
 {
     /** @param TreeMap<T, true> $treeMap */
     private function __construct(

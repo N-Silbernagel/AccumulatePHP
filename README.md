@@ -141,6 +141,17 @@ classDiagram
         remove(element)
     }
     MutableSet <|-- Set
+    
+    class SequencedSet {
+        <<interface>>
+    }
+    SequencedSet <|-- Set
+    SequencedSet <|-- SequencedAccumulation
+    class SequencedMutableSet {
+        <<interface>>
+    }
+    SequencedMutableSet <|-- SequencedSet
+    SequencedMutableSet <|-- Set
 ```
 
 ### Accumulation
@@ -184,6 +195,9 @@ An accumulation where every element may only exist once
 
 ### MutableSet
 Like Set but with methods for mutation
+
+### SequencedSet
+A Set with defined Order of keys
 
 ### HashSet
 Hash implementation of a Set. Uses HashMap in the background.
