@@ -2,3 +2,4 @@
 /coverage-html/
 .phpunit.cache
 .phpunit.result.cache
+.idea
