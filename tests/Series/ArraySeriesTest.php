@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Tests\Series;
 
 use AccumulatePHP\Accumulation;
-use AccumulatePHP\Series\ReadonlyArraySeries;
+use AccumulatePHP\NoSuchElement;
 use AccumulatePHP\Series\ArraySeries;
+use AccumulatePHP\Series\IndexOutOfBounds;
 use AccumulatePHP\Series\MutableSeries;
 use AccumulatePHP\Series\Series;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
+use Tests\SequencedAccumulationTestContract;
 
-final class ArraySeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract
+final class ArraySeriesTest extends TestCase implements AccumulationTestContract, SeriesTestContract, SequencedAccumulationTestContract
 {
     /** @test */
     public function it_should_allow_creating_empty_instance_via_static_factory(): void
@@ -300,5 +302,48 @@ final class ArraySeriesTest extends TestCase implements AccumulationTestContract
         $series = ArraySeries::of(4, 3, 2);
 
         self::assertSame(3, $series->count());
+    }
+
+    /** @test */
+    public function it_should_throw_if_index_is_out_of_bounds(): void
+    {
+        $series = ArraySeries::of(1);
+
+        $this->expectException(IndexOutOfBounds::class);
+        $series->get(1);
+    }
+
+    /** @test */
+    public function it_should_return_first_element(): void
+    {
+        $sequence = ArraySeries::of(5, 2, 7);
+
+        self::assertSame(5, $sequence->first());
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_first_element_exists(): void
+    {
+        $sequence = ArraySeries::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->first();
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_last_element_exists(): void
+    {
+        $sequence = ArraySeries::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->last();
+    }
+
+    /** @test */
+    public function it_should_return_last_element(): void
+    {
+        $sequence = ArraySeries::of(6, 1, 4);
+
+        self::assertSame(4, $sequence->last());
     }
 }

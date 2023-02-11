@@ -6,6 +6,7 @@ namespace AccumulatePHP\Map;
 
 use AccumulatePHP\Comparable;
 use AccumulatePHP\Comparator;
+use AccumulatePHP\NoSuchElement;
 use AccumulatePHP\Series\ArraySeries;
 use AccumulatePHP\Series\MutableSeries;
 use IteratorAggregate;
@@ -197,6 +198,10 @@ final class TreeMap implements SequencedMutableMap, IteratorAggregate
         return null;
     }
 
+    /**
+     * @phpstan-assert-if-true null $this->root
+     * @phpstan-assert-if-false !null $this->root
+     */
     #[Pure]
     public function isEmpty(): bool
     {
@@ -282,6 +287,23 @@ final class TreeMap implements SequencedMutableMap, IteratorAggregate
         do {
             $previous = $current;
             $current = $current->getLeft();
+        } while (!is_null($current));
+
+        return $previous;
+    }
+
+    /**
+     * @param TreeMapEntry<TKey, TValue> $root
+     * @return TreeMapEntry<TKey, TValue>
+     */
+    #[Pure]
+    private function getRightMostNode(TreeMapEntry $root): TreeMapEntry
+    {
+        $current = $root;
+
+        do {
+            $previous = $current;
+            $current = $current->getRight();
         } while (!is_null($current));
 
         return $previous;
@@ -584,5 +606,27 @@ final class TreeMap implements SequencedMutableMap, IteratorAggregate
         }
 
         return $entry;
+    }
+
+    /**
+     * @return Entry<TKey, TValue>
+     */
+    public function first(): Entry
+    {
+        if ($this->isEmpty()) {
+            throw new NoSuchElement;
+        }
+        return $this->getLeftMostNode($this->root)->getEntry();
+    }
+
+    /**
+     * @return Entry<TKey, TValue>
+     */
+    public function last(): Entry
+    {
+        if ($this->isEmpty()) {
+            throw new NoSuchElement;
+        }
+        return $this->getRightMostNode($this->root)->getEntry();
     }
 }

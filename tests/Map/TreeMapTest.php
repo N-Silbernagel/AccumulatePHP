@@ -8,13 +8,16 @@ use AccumulatePHP\Map\Entry;
 use AccumulatePHP\Map\IncomparableKeys;
 use AccumulatePHP\Map\TreeMap;
 use AccumulatePHP\Map\MutableMap;
+use AccumulatePHP\NoSuchElement;
 use AccumulatePHP\Series\ArraySeries;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\ReverseComparable;
+use Tests\SequencedAccumulationTestContract;
 use Tests\StringLengthComparator;
+use function PHPUnit\Framework\assertTrue;
 
-final class TreeMapTest extends TestCase implements MutableMapTestContract, AccumulationTestContract
+final class TreeMapTest extends TestCase implements MutableMapTestContract, AccumulationTestContract, SequencedAccumulationTestContract
 {
     /** @test */
     public function it_should_be_creatable_from_assoc_array(): void
@@ -301,5 +304,47 @@ final class TreeMapTest extends TestCase implements MutableMapTestContract, Accu
         self::assertSame('aa', $collector->get(0));
         self::assertSame('aaa', $collector->get(1));
         self::assertSame(2, $collector->count());
+    }
+
+    /** @test */
+    public function it_should_return_first_element(): void
+    {
+        $sequence = TreeMap::fromAssoc([
+            'y' => 1,
+            'a' => 5
+        ]);
+
+        self::assertSame('a', $sequence->first()->getKey());
+        self::assertSame(5, $sequence->first()->getValue());
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_first_element_exists(): void
+    {
+        $sequence = TreeMap::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->first();
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_last_element_exists(): void
+    {
+        $sequence = TreeMap::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->last();
+    }
+
+    /** @test */
+    public function it_should_return_last_element(): void
+    {
+        $sequence = TreeMap::fromAssoc([
+            'y' => 1,
+            'a' => 5
+        ]);
+
+        self::assertSame('y', $sequence->last()->getKey());
+        self::assertSame(1, $sequence->last()->getValue());
     }
 }

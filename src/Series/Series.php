@@ -21,6 +21,8 @@ interface Series extends SequencedAccumulation
 
     /**
      * @return T
+     *
+     * @throws IndexOutOfBounds if the index is out of range ( < 0 or >= count())
      */
     public function get(int $index): mixed;
 

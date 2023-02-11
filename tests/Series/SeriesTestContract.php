@@ -37,4 +37,7 @@ interface SeriesTestContract
 
     /** @test */
     public function it_should_allow_getting_items_by_index(): void;
+
+    /** @test */
+    public function it_should_throw_if_index_is_out_of_bounds(): void;
 }

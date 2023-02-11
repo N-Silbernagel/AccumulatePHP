@@ -86,6 +86,11 @@ final class ReadonlyArraySeries implements Series, IteratorAggregate
         return $this->repository->map($mapConsumer);
     }
 
+    /**
+     * @return T
+     *
+     * @throws IndexOutOfBounds if the index is out of range ( < 0 or >= count())
+     */
     public function get(int $index): mixed
     {
         return $this->repository->get($index);
@@ -130,5 +135,15 @@ final class ReadonlyArraySeries implements Series, IteratorAggregate
         foreach ($this->repository as $value) {
             yield $value;
         }
+    }
+
+    public function first(): mixed
+    {
+        return $this->repository->first();
+    }
+
+    public function last(): mixed
+    {
+        return $this->repository->last();
     }
 }

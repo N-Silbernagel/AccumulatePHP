@@ -99,4 +99,14 @@ final class TreeSet implements SequencedMutableSet, IteratorAggregate
     {
         return iterator_to_array($this);
     }
+
+    public function first(): mixed
+    {
+        return $this->treeMap->first()->getKey();
+    }
+
+    public function last(): mixed
+    {
+        return $this->treeMap->last()->getKey();
+    }
 }

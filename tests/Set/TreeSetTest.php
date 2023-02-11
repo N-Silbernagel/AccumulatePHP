@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Set;
 
+use AccumulatePHP\NoSuchElement;
 use AccumulatePHP\Set\TreeSet;
 use AccumulatePHP\Set\MutableSet;
 use PHPUnit\Framework\TestCase;
 use Tests\AccumulationTestContract;
 use Tests\Map\UnequalHashable;
-use function PHPUnit\Framework\assertTrue;
+use Tests\SequencedAccumulationTestContract;
 
-final class TreeSetTest extends TestCase implements AccumulationTestContract, MutableSetTestContract
+final class TreeSetTest extends TestCase implements AccumulationTestContract, MutableSetTestContract, SequencedAccumulationTestContract
 {
     /** @test */
     public function it_should_be_traversable(): void
@@ -135,5 +136,39 @@ final class TreeSetTest extends TestCase implements AccumulationTestContract, Mu
         $set = TreeSet::of('some', 'things');
 
         self::assertSame(2, $set->count());
+    }
+
+    /** @test */
+    public function it_should_return_first_element(): void
+    {
+        $sequence = TreeSet::of(6, 1, 4);
+
+        self::assertSame(1, $sequence->first());
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_first_element_exists(): void
+    {
+        $sequence = TreeSet::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->first();
+    }
+
+    /** @test */
+    public function it_should_throw_if_no_last_element_exists(): void
+    {
+        $sequence = TreeSet::new();
+
+        $this->expectException(NoSuchElement::class);
+        $sequence->last();
+    }
+
+    /** @test */
+    public function it_should_return_last_element(): void
+    {
+        $sequence = TreeSet::of(6, 1, 4);
+
+        self::assertSame(6, $sequence->last());
     }
 }

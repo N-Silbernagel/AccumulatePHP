@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AccumulatePHP\Series;
 
 
+use AccumulatePHP\NoSuchElement;
 use IteratorAggregate;
 use JetBrains\PhpStorm\Pure;
 use Traversable;
@@ -99,9 +100,14 @@ final class ArraySeries implements MutableSeries, IteratorAggregate
 
     /**
      * @return T
+     *
+     * @throws IndexOutOfBounds if the index is out of range ( < 0 or >= count())
      */
     public function get(int $index): mixed
     {
+        if ($index < 0 || $index >= $this->count()) {
+            throw new IndexOutOfBounds;
+        }
         return $this->repository[$index];
     }
 
@@ -182,5 +188,23 @@ final class ArraySeries implements MutableSeries, IteratorAggregate
         }
 
         return null;
+    }
+
+    public function first(): mixed
+    {
+        try {
+            return $this->get(0);
+        } catch (IndexOutOfBounds) {
+            throw new NoSuchElement;
+        }
+    }
+
+    public function last(): mixed
+    {
+        try {
+            return $this->get($this->count()-1);
+        } catch (IndexOutOfBounds) {
+            throw new NoSuchElement;
+        }
     }
 }
