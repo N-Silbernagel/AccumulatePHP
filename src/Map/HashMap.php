@@ -232,7 +232,7 @@ final class HashMap implements MutableMap, IteratorAggregate
     }
 
     /**
-     * @param array<int, Entry<TKey, TValue>> $array>
+     * @param Entry<TKey, TValue>[] $array>
      * @return self<TKey, TValue>
      */
     public static function fromArray(array $array): self

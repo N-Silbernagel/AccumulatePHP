@@ -81,7 +81,7 @@ final class HashSet implements MutableSet, IteratorAggregate
     }
 
     /**
-     * @param T[] $array>
+     * @param T[] $array
      * @return self<T>
      */
     public static function fromArray(array $array): self

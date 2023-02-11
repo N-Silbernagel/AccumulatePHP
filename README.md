@@ -21,6 +21,7 @@ composer require nsilbernagel/accumulatephp
 ```
 
 ## Usage Examples
+ArraySeries and HashMap are the main two data structures you will be using. Here are examples of how to use them.
 ### ArraySeries
 ```php
 // create empty list
@@ -60,7 +61,19 @@ $map->put('isnt', 'it?');
 // remove entry via key
 $map->remove('isnt');
 ```
-Hashmaps can use any type keys, except for resources and arrays. Classes may implement Hashable interface to determine their hash function and definition of equality. You may refer to https://www.baeldung.com/java-equals-hashcode-contracts to learn more about equals and hashcode and their contracts. 
+Hashmaps can use any type keys, except for resources and arrays. Classes may implement Hashable interface to determine their hash function and definition of equality. You may refer to https://www.baeldung.com/java-equals-hashcode-contracts to learn more about equals and hashcode and their contracts.
+
+### Helpers
+AccumulatePHP provides helper methods for creating Accumulations
+```php
+$series = mutableSeriesOf(1,2,3);
+
+$map = mutableMapOf(Entry::of('hello', 'world'));
+
+$set = mutableSetOf(1,2,3);
+```
+
+
 ## Structure
 
 ```mermaid

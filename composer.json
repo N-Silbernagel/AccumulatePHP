@@ -6,7 +6,12 @@
     "autoload": {
         "psr-4": {
             "AccumulatePHP\\": "src/"
-        }
+        },
+        "files": [
+            "src/Series/functions.php",
+            "src/Map/functions.php",
+            "src/Set/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
