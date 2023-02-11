@@ -327,7 +327,7 @@ final class TreeMap implements SequencedMutableMap, IteratorAggregate
 
     private function compare(mixed $first, mixed $second): int
     {
-        if ($this->comparator !== null) {
+        if ($this->comparator instanceof Comparator) {
             return $this->comparator->compare($first, $second);
         }
 
@@ -338,6 +338,7 @@ final class TreeMap implements SequencedMutableMap, IteratorAggregate
         if (is_scalar($first) !== is_scalar($second)) {
             throw new IncomparableKeys($first, $second);
         }
+
         return $second <=> $first;
     }
 
